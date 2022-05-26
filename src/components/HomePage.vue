@@ -1,15 +1,18 @@
 <template>
-  <div id="main">
+  <div id="body">
     <header>
       <div id="mini-logo">
-        <span>Music</span>
-        <div></div>
         <span>FUU</span>
-      </div>
-      <div id="lang-btn">
-
+        <div></div>
+        <span>MUSIC</span>
       </div>
       <div id="nav-menu">
+        <span>ABOUT</span>
+        <span>DISCOGRAPHY</span>
+        <span>SHOP</span>
+        <span>WORK</span>
+      </div>
+      <div id="lang-btn">
         <span>EN</span>
       </div>
     </header>
@@ -18,98 +21,109 @@
 
 <script>
 export default {
-  name: 'HomePage',
-  props: {}
+  name: 'HomePage'
 }
 </script>
 
 <style lang="less" scoped>
-#main {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  position: absolute;
-  width: 1512px;
-  height: 5427px;
-  left: 0px;
-  top: 0px;
+@base-font: Helvetica, Arial, sans-serif;
+@theme-font: 'Satoshi', @base-font;
+@theme-color: #68DFE3;
+@black: #000000;
+@black-2: #2B2B2B;
 
+#body {
   header {
     position: relative;
-    width: 1512px;
     height: 106px;
-    background: #68DFE3;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-
-    div,
-    span {
-      display: inline-block;
-    }
+    background: @theme-color;
 
     #mini-logo {
+      position: absolute;
+      width: 65px;
+      height: 55px;
+      left: 73px;
+      top: 45px;
+      text-align: center;
+
       span:first-child {
-        position: absolute;
-        width: 65px;
-        height: 16px;
-        left: 73px;
-        top: 84px;
-        font-family: 'Montserrat';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12.9044px;
-        line-height: 16px;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        color: #000000;
-      }
-
-      div {
-        position: absolute;
-        width: 63px;
-        height: 0px;
-        left: 74px;
-        top: 82px;
-        border: 1px solid #000000;
-      }
-
-      span:last-child {
-        position: absolute;
-        width: 65px;
-        height: 35px;
-        left: 73px;
-        top: 45px;
-        font-family: 'Satoshi';
+        font-family: @theme-font;
         font-style: normal;
         font-weight: 900;
         font-size: 26.1818px;
         line-height: 35px;
         letter-spacing: 4.90909px;
         text-transform: uppercase;
-        color: #000000;
+        color: @black;
+      }
+
+      div {
+        width: 63px;
+        height: 2px;
+        background: @black;
+        margin: 1px;
+      }
+
+      span:last-child {
+        font-family: 'Montserrat', @base-font;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12.9044px;
+        line-height: 16px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: @black;
       }
     }
 
     #nav-menu {
-      background: #2B2B2B;
-      width: 43px;
-      height: 43px;
-      border-radius: 22px;
-      text-align: center;
+      @width: 361px;
+      @height: 19px;
+
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0px;
+      gap: 36px;
+      width: @width;
+      height: @height;
       position: absolute;
-      left: 1417px;
-      top: 46px;
+      left: calc(50% - @width / 2);
+      top: calc(50% - @height / 2 + 17.5px);
 
       span {
-        font-family: 'Satoshi';
+        font-family: @theme-font;
         font-style: normal;
         font-weight: 500;
         font-size: 14px;
-        line-height: 43px;
+        line-height: @height;
         letter-spacing: 1.15px;
-        color: #68DFE3;
+        text-transform: uppercase;
+        color: @black;
+      }
+    }
+
+    #lang-btn {
+      @radius: 21.5px;
+
+      position: absolute;
+      right: 52px;
+      top: 46px;
+      width: @radius * 2;
+      height: @radius * 2;
+      border-radius: @radius;
+      background: @black-2;
+      text-align: center;
+
+      span {
+        font-family: @theme-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: @radius * 2;
+        letter-spacing: 1.15px;
+        text-transform: uppercase;
+        color: @theme-color;
       }
     }
   }

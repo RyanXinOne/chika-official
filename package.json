@@ -1,12 +1,13 @@
 {
   "name": "chika-official",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Chika's official website.",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "preview": "lt -p 89 -s chika"
   },
   "dependencies": {
     "animejs": "^3.2.1",

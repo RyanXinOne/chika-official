@@ -10,7 +10,6 @@
     "preview": "lt -p 89 -s chika"
   },
   "dependencies": {
-    "animejs": "^3.2.1",
     "vue": "^3.2.13"
   },
   "devDependencies": {

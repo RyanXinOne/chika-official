@@ -3,7 +3,7 @@
     <div id="mask-cover">
       <div></div>
     </div>
-    <span id="description">Music producer/mixing engineer/composer<br>take your song to the next lever.</span>
+    <span id="description">Music producer/mixing engineer/composer<br>take your song to the next level.</span>
     <span id="big-logo">FU<span>U</span></span>
     <div id="social-icons">
       <img src="@/assets/svgs/instagram.svg" />
@@ -130,6 +130,7 @@ export default {
 
     img {
       height: @height;
+      cursor: pointer;
     }
   }
 }

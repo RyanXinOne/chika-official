@@ -36,6 +36,7 @@ header {
     left: 73px;
     top: 45px;
     text-align: center;
+    cursor: pointer;
 
     span:first-child {
       font-family: @theme-font;
@@ -91,6 +92,7 @@ header {
       letter-spacing: 1.15px;
       text-transform: uppercase;
       color: @black;
+      cursor: pointer;
     }
   }
 
@@ -105,6 +107,7 @@ header {
     border-radius: @radius;
     background: @black-2;
     text-align: center;
+    cursor: pointer;
 
     span {
       font-family: @theme-font;

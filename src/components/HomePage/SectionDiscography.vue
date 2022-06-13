@@ -2,9 +2,11 @@
   <section id="discography">
     <h1>DISCOGRAPHY</h1>
     <p>Single album/album<br>2020-2022</p>
-    <div id="albums">
-      <div v-for="item in albumList" :key="item.id" :class="{ new: item.isNew }">
-        <img v-if="item.image" :src="item.image" alt="noImg" />
+    <div id="albums" :style="{ transform: 'translateX(-' + this.transX + 'px)' }" @mouseover="pauseAnime" @mouseout="resumeAnime">
+      <div class="albumgroup" v-for="n in albumGroups" :key="n">
+        <div v-for="item in albumList" :key="item.id" :class="{ new: item.isNew }">
+          <img :src="item.image" :alt="item.name" />
+        </div>
       </div>
     </div>
   </section>
@@ -20,10 +22,47 @@ export default {
         { id: 2, name: 'Swampgator', image: require('@/assets/albums/2.jpg') },
         { id: 3, name: 'Let Me Hear', image: require('@/assets/albums/3.jpg') },
         { id: 4, name: 'Haetae', image: require('@/assets/albums/4.jpg'), isNew: true },
-        { id: 5, name: 'Falling Down feat. Renko  × TRI△NGLE' },
-        { id: 6, name: 'Count' },
-      ]
+      ],
+      transX: 0,
+      clientWidth: document.documentElement.clientWidth || document.body.clientWidth,
+      scrolling: true
     }
+  },
+  computed: {
+    albumGroupWidth() {
+      // compute width of a single album group
+      return this.albumList.length * 216;
+    },
+    albumGroups() {
+      // compute number of album groups required
+      return Math.ceil(this.clientWidth / this.albumGroupWidth) * 2;
+    }
+  },
+  methods: {
+    albumsInfiniteScrollAnime() {
+      if (this.scrolling) {
+        this.transX++;
+        if (this.transX >= this.albumGroupWidth * (this.albumGroups / 2)) {
+          this.transX = 0;
+        }
+      }
+      window.requestAnimationFrame(this.albumsInfiniteScrollAnime);
+    },
+    pauseAnime() {
+      this.scrolling = false;
+    },
+    resumeAnime() {
+      this.scrolling = true;
+    }
+  },
+  mounted() {
+    // start infinite scroll animation
+    this.albumsInfiniteScrollAnime();
+
+    // listen for window resize
+    window.addEventListener('resize', () => {
+      this.clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
+    });
   }
 }
 </script>
@@ -33,6 +72,7 @@ export default {
   position: relative;
   height: 1000px;
   background: @theme-color;
+  overflow-x: hidden;
 
   h1 {
     position: absolute;
@@ -73,16 +113,43 @@ export default {
     top: 614px;
     width: 100%;
     height: @width;
+    white-space: nowrap;
 
-    div {
-      width: @width;
-      height: @width;
+    .albumgroup {
       display: inline-block;
+      height: @width;
 
-      img {
+      div {
+        position: relative;
+        display: inline-block;
         width: @width;
         height: @width;
-        object-fit: cover;
+        cursor: pointer;
+
+        img {
+          width: @width;
+          height: @width;
+          object-fit: cover;
+        }
+
+        &.new::after {
+          content: 'NEW';
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          width: 59px;
+          padding: 5px 10px;
+          background: @yellow;
+
+          font-family: @theme-font;
+          font-style: normal;
+          font-weight: 900;
+          font-size: 24px;
+          line-height: 32px;
+          text-align: center;
+          text-transform: uppercase;
+          color: @blue;
+        }
       }
     }
   }

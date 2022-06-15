@@ -4,7 +4,7 @@
     <p>Single album/album<br>2020-2022</p>
     <div id="albums" :style="{ transform: 'translateX(-' + this.transX + 'px)' }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="albumgroup" v-for="n in albumGroups" :key="n">
-        <div v-for="item in albumList" :key="item.id" :class="{ new: item.isNew }">
+        <div v-for="item in albumList" :key="item.id" :title="item.name" :class="{ new: item.isNew }">
           <img :src="item.image" :alt="item.name" />
         </div>
       </div>
@@ -18,10 +18,11 @@ export default {
   data() {
     return {
       albumList: [
-        { id: 1, name: 'Trinity Force', image: require('@/assets/albums/1.jpg') },
-        { id: 2, name: 'Swampgator', image: require('@/assets/albums/2.jpg') },
-        { id: 3, name: 'Let Me Hear', image: require('@/assets/albums/3.jpg') },
-        { id: 4, name: 'Haetae', image: require('@/assets/albums/4.jpg'), isNew: true },
+        { id: 1, name: 'Chikaka', date: '2022.6', image: require('@/assets/albums/1.jpg'), isNew: true },
+        { id: 2, name: 'DINNNNN', date: '2022.9', image: require('@/assets/albums/2.jpg') },
+        { id: 3, name: 'S-Ky', date: '2022.1', image: require('@/assets/albums/3.jpg') },
+        { id: 4, name: 'Anomalie Sounds', date: '2022.6', image: require('@/assets/albums/4.jpg') },
+        { id: 5, name: 'Gimme', date: '2022.9', image: require('@/assets/albums/5.jpg') },
       ],
       transX: 0,
       clientWidth: document.documentElement.clientWidth || document.body.clientWidth,

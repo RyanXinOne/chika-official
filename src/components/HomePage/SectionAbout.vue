@@ -1,5 +1,5 @@
 <template>
-  <section id="about">
+  <section>
     <div id="mask-cover">
       <div></div>
     </div>
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#about {
+section {
   position: relative;
   height: 1000px;
   background: @theme-color;

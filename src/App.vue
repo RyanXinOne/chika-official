@@ -14,8 +14,7 @@ export default {
 </script>
 
 <style>
-@import url('https://api.fontshare.com/css?f[]=satoshi@300,400,500,700,900,1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@1,900,700,500,300,400&f[]=montserrat@500,1,900,700,400,800,300,600&f[]=clash-grotesk@700,400,600,300,1,500&display=swap');
 
 body {
   margin: 0;

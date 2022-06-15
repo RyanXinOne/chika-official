@@ -2,7 +2,7 @@
   <section id="discography">
     <h1>DISCOGRAPHY</h1>
     <p>Single album/album<br>2020-2022</p>
-    <div id="albums" :style="{ transform: 'translateX(-' + this.transX + 'px)' }" @mouseover="pauseAnime" @mouseout="resumeAnime">
+    <div id="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="albumgroup" v-for="n in albumGroups" :key="n">
         <div v-for="item in albumList" :key="item.id" :title="item.name" :class="{ new: item.isNew }">
           <img :src="item.image" :alt="item.name" />
@@ -10,18 +10,30 @@
       </div>
     </div>
   </section>
+  <SectionAlbum :album="albumList[3]" />
 </template>
 
 <script>
+import SectionAlbum from './SectionAlbum.vue';
+
 export default {
   name: 'SectionDiscography',
+  components: {
+    SectionAlbum
+  },
   data() {
     return {
       albumList: [
-        { id: 1, name: 'Chikaka', date: '2022.6', image: require('@/assets/albums/1.jpg'), isNew: true },
+        { id: 1, name: 'CHIKAKA', date: '2022.6', image: require('@/assets/albums/1.jpg'), isNew: true },
         { id: 2, name: 'DINNNNN', date: '2022.9', image: require('@/assets/albums/2.jpg') },
         { id: 3, name: 'S-Ky', date: '2022.1', image: require('@/assets/albums/3.jpg') },
-        { id: 4, name: 'Anomalie Sounds', date: '2022.6', image: require('@/assets/albums/4.jpg') },
+        {
+          id: 4,
+          name: 'ALBUM CHIKAKA FEAT. SAWANO',
+          date: '2022.12.22',
+          image: require('@/assets/albums/4.jpg'),
+          sources: { "Wangyiyun": "https://music.163.com/", "AppleMusic": "https://www.apple.com/apple-music/" },
+        },
         { id: 5, name: 'Gimme', date: '2022.9', image: require('@/assets/albums/5.jpg') },
       ],
       transX: 0,
@@ -37,6 +49,10 @@ export default {
     albumGroups() {
       // compute number of album groups required
       return Math.ceil(this.clientWidth / this.albumGroupWidth) * 2;
+    },
+    translateX() {
+      // compute translateX effect of CSS transform
+      return 'translateX(-' + this.transX + 'px)';
     }
   },
   methods: {
@@ -69,7 +85,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#discography {
+section#discography {
   position: relative;
   height: 1000px;
   background: @theme-color;

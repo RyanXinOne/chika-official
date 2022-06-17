@@ -33,6 +33,14 @@ export default {
           date: '2022.12.22',
           image: require('@/assets/albums/4.jpg'),
           sources: { "Wangyiyun": "https://music.163.com/", "AppleMusic": "https://www.apple.com/apple-music/" },
+          songs: [
+            {id: 1, name: 'Trinity Force', link: require('@/assets/audios/cheat.mp3')},
+            {id: 2, name: 'Swampgator', link: require('@/assets/audios/cheat.mp3')},
+            {id: 3, name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3')},
+            {id: 4, name: 'Haetae', link: require('@/assets/audios/cheat.mp3')},
+            {id: 5, name: 'Falling Down feat. Renko  × TRI△NGLE', link: require('@/assets/audios/cheat.mp3')},
+            {id: 6, name: 'Count', link: require('@/assets/audios/cheat.mp3')},
+          ]
         },
         { id: 5, name: 'Gimme', date: '2022.9', image: require('@/assets/albums/5.jpg') },
       ],

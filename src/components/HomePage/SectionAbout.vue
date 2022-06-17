@@ -26,6 +26,7 @@ section {
   position: relative;
   height: 1000px;
   background: @theme-color;
+  overflow-x: hidden;
 
   #mask-cover {
     @width: 1000px;

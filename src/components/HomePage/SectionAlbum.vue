@@ -19,6 +19,10 @@
         <span v-if="isPlaying">STOP</span>
         <span v-else>PLAY</span>
       </div>
+      <div class="album-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }">
+        <span>{{ paddingNumber(song.id, 2) }}</span>
+        <span>{{ song.name }}</span>
+      </div>
     </div>
   </section>
 </template>
@@ -29,7 +33,8 @@ export default {
   props: { album: Object },
   data() {
     return {
-      isPlaying: true
+      isPlaying: false,
+      playingSongId: 1
     }
   },
   computed: {
@@ -40,6 +45,9 @@ export default {
   methods: {
     togglePlay() {
       this.isPlaying = !this.isPlaying;
+    },
+    paddingNumber(num, length) {
+      return (Array(length).join('0') + num).slice(-length);
     }
   }
 }
@@ -160,7 +168,11 @@ section {
 
     #player-controller {
       @length: 62px;
+      @margin: 22.5px;
+
       display: inline-block;
+      height: @length + @margin * 2;
+      margin-bottom: 13px;
       cursor: pointer;
 
       &::before {
@@ -168,7 +180,7 @@ section {
         display: inline-block;
         width: @length;
         height: @length;
-        margin: 22.5px;
+        margin: @margin;
         background: @theme-color;
       }
 
@@ -178,7 +190,7 @@ section {
         border-top: (@length / 2) solid transparent;
         border-left: (@length * sin(60deg)) solid @theme-color;
         border-bottom: (@length / 2) solid transparent;
-        margin: 22.5px (22.5px + @length * (1 - sin(60deg)) / 2);
+        margin: @margin (@margin + @length * (1 - sin(60deg)) / 2);
         background: unset;
       }
 
@@ -189,7 +201,7 @@ section {
         font-style: normal;
         font-weight: 700;
         font-size: 27px;
-        line-height: 107px;
+        line-height: @length + @margin * 2;
         letter-spacing: 7px;
         text-transform: uppercase;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -205,6 +217,31 @@ section {
       width: 454px;
       height: 1.5px;
       background: @white;
+    }
+
+    .album-song {
+      position: relative;
+      margin-left: 24px;
+      margin-bottom: 16px;
+      cursor: pointer;
+
+      font-family: @theme-font;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 27px;
+      line-height: 36px;
+      letter-spacing: 2px;
+      color: @white;
+
+      &.playing {
+        color: @theme-color;
+      }
+
+      span:last-child {
+        position: absolute;
+        left: 72px;
+        white-space: nowrap;
+      }
     }
   }
 }

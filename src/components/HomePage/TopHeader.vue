@@ -11,9 +11,7 @@
       <span>SHOP</span>
       <span>WORK</span>
     </div>
-    <div id="lang-btn">
-      <span>EN</span>
-    </div>
+    <div id="lang-btn">EN</div>
   </header>
 </template>
 
@@ -109,16 +107,14 @@ header {
     text-align: center;
     cursor: pointer;
 
-    span {
-      font-family: @theme-font;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: @radius * 2;
-      letter-spacing: 1.15px;
-      text-transform: uppercase;
-      color: @theme-color;
-    }
+    font-family: @theme-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: @radius * 2;
+    letter-spacing: 1.15px;
+    text-transform: uppercase;
+    color: @theme-color;
   }
 }
 </style>

@@ -1,11 +1,17 @@
 <template>
   <section id="discography">
-    <h1>DISCOGRAPHY</h1>
-    <p>Single album/album<br>2020-2022</p>
+    <h1>
+      <div></div><span>DISCOGRAPHY</span>
+    </h1>
+    <p><span>New album SPARK</span> released on Sep. 6</p>
     <div id="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="albumgroup" v-for="n in albumGroups" :key="n">
-        <div v-for="item in albumList" :key="item.id" :title="item.name" :class="{ new: item.isNew }">
-          <img :src="item.image" :alt="item.name" />
+        <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }">
+          <img :src="album.image" :alt="album.name" />
+          <div class="albumhover">
+            <span>{{ album.name }}</span>
+            <span>{{ dashedJoinDate(album.date) }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -24,25 +30,25 @@ export default {
   data() {
     return {
       albumList: [
-        { id: 1, name: 'CHIKAKA', date: '2022.6', image: require('@/assets/albums/1.jpg'), isNew: true },
-        { id: 2, name: 'DINNNNN', date: '2022.9', image: require('@/assets/albums/2.jpg') },
-        { id: 3, name: 'S-Ky', date: '2022.1', image: require('@/assets/albums/3.jpg') },
+        { id: 1, name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), isNew: true },
+        { id: 2, name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg') },
+        { id: 3, name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg') },
         {
           id: 4,
           name: 'ALBUM CHIKAKA FEAT. SAWANO',
-          date: '2022.12.22',
+          date: new Date('2022-12-22'),
           image: require('@/assets/albums/4.jpg'),
           sources: { "Wangyiyun": "https://music.163.com/", "AppleMusic": "https://www.apple.com/apple-music/" },
           songs: [
-            {id: 1, name: 'Trinity Force', link: require('@/assets/audios/cheat.mp3')},
-            {id: 2, name: 'Swampgator', link: require('@/assets/audios/cheat.mp3')},
-            {id: 3, name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3')},
-            {id: 4, name: 'Haetae', link: require('@/assets/audios/cheat.mp3')},
-            {id: 5, name: 'Falling Down feat. Renko  × TRI△NGLE', link: require('@/assets/audios/cheat.mp3')},
-            {id: 6, name: 'Count', link: require('@/assets/audios/cheat.mp3')},
+            { id: 1, name: 'Trinity Force', link: require('@/assets/audios/cheat.mp3') },
+            { id: 2, name: 'Swampgator', link: require('@/assets/audios/cheat.mp3') },
+            { id: 3, name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') },
+            { id: 4, name: 'Haetae', link: require('@/assets/audios/cheat.mp3') },
+            { id: 5, name: 'Falling Down feat. Renko  × TRI△NGLE', link: require('@/assets/audios/cheat.mp3') },
+            { id: 6, name: 'Count', link: require('@/assets/audios/cheat.mp3') },
           ]
         },
-        { id: 5, name: 'Gimme', date: '2022.9', image: require('@/assets/albums/5.jpg') },
+        { id: 5, name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg') },
       ],
       transX: 0,
       clientWidth: document.documentElement.clientWidth || document.body.clientWidth,
@@ -78,6 +84,9 @@ export default {
     },
     resumeAnime() {
       this.scrolling = true;
+    },
+    dashedJoinDate(date) {
+      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     }
   },
   mounted() {
@@ -101,23 +110,51 @@ section#discography {
 
   h1 {
     position: absolute;
-    top: 288px;
+    top: 252px;
     width: 100%;
     margin: 0;
-
-    font-family: @theme-font;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 80px;
-    line-height: 108px;
     text-align: center;
-    text-transform: uppercase;
-    color: @white;
+    white-space: nowrap;
+
+    div {
+      display: inline-block;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 23px;
+        width: 10px;
+        height: 2px;
+        background: @white;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 23px;
+        width: 10px;
+        height: 2px;
+        background: @white;
+        transform: rotate(90deg);
+      }
+    }
+
+    span {
+      position: relative;
+      left: 12px;
+      font-family: @theme-font; // pending modification
+      font-style: normal;
+      font-weight: 700;
+      font-size: 120px;
+      line-height: 135px;
+      text-transform: uppercase;
+      color: @white;
+    }
   }
 
   p {
     position: absolute;
-    top: 456px;
+    top: 407px;
     width: 100%;
     margin: 0;
 
@@ -129,6 +166,12 @@ section#discography {
     text-align: center;
     text-transform: uppercase;
     color: @white;
+
+    span {
+      text-decoration-line: underline;
+      color: @yellow;
+      cursor: pointer;
+    }
   }
 
   #albums {
@@ -144,7 +187,7 @@ section#discography {
       display: inline-block;
       height: @width;
 
-      div {
+      .album {
         position: relative;
         display: inline-block;
         width: @width;
@@ -157,7 +200,7 @@ section#discography {
           object-fit: cover;
         }
 
-        &.new::after {
+        &.new::before {
           content: 'NEW';
           position: absolute;
           top: 10px;
@@ -174,6 +217,58 @@ section#discography {
           text-align: center;
           text-transform: uppercase;
           color: @blue;
+        }
+
+        .albumhover {
+          opacity: 0;
+          transition: opacity 0.3s ease-in;
+
+          &:hover {
+            opacity: 1;
+            transition: opacity 0.3s ease-out;
+          }
+
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          line-height: @width;
+          background: rgba(0, 0, 0, 0.6);
+
+          span:first-child {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            vertical-align: middle;
+            white-space: normal;
+
+            font-family: @theme-font;
+            font-style: normal;
+            font-weight: 900;
+            font-size: 19px;
+            line-height: 26px;
+            text-transform: uppercase;
+            color: @theme-color;
+          }
+
+          span:last-child {
+            position: absolute;
+            top: 176px;
+            display: block;
+            width: 100%;
+            text-align: center;
+
+            font-family: @theme-font;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: @theme-color;
+            opacity: 0.8;
+          }
         }
       }
     }

@@ -5,7 +5,7 @@
     </div>
     <div id="album-detail">
       <span id="album-title" v-html="albumTitle"></span>
-      <span id="album-release">{{ album.date }} Release</span>
+      <span id="album-release">{{ dotJoinDate(album.date) }} Release</span>
       <span class="album-source" v-for="(link, src) in album.sources" :key="src">
         <a :href="link" target="_blank">{{ src }}</a>
       </span>
@@ -48,6 +48,9 @@ export default {
     },
     paddingNumber(num, length) {
       return (Array(length).join('0') + num).slice(-length);
+    },
+    dotJoinDate(date) {
+      return date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate();
     }
   }
 }

@@ -4,7 +4,7 @@
       <img src="@/assets/svgs/arrow-top-left.svg" alt="↖close" />
     </div>
     <div id="album-detail">
-      <span id="album-title" v-html="albumTitle"></span>
+      <span id="album-title" v-html="albumTitleRendered"></span>
       <span id="album-release">{{ dotJoinDate(album.date) }} Release</span>
       <span class="album-source" v-for="(link, src) in album.sources" :key="src">
         <a :href="link" target="_blank">{{ src }}</a>
@@ -19,7 +19,13 @@
         <span v-if="isPlaying">STOP</span>
         <span v-else>PLAY</span>
       </div>
-      <div class="album-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }">
+      <div id="player-progress">
+        <div id="player-progress-bar" @click="setProgressByClick">
+          <div :style="{ width: progressInPercent }"></div>
+        </div>
+        <span id="player-progress-text">{{ remainingTimeReadable }}</span>
+      </div>
+      <div class="album-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)">
         <span>{{ paddingNumber(song.id, 2) }}</span>
         <span>{{ song.name }}</span>
       </div>
@@ -33,18 +39,90 @@ export default {
   props: { album: Object },
   data() {
     return {
+      audio: new Audio(),
       isPlaying: false,
-      playingSongId: 1
+      playingSongId: this.album.songs.length > 0 ? this.album.songs[0].id : -1,
+      duration: NaN,
+      currentTime: 0
     }
   },
   computed: {
-    albumTitle() {
+    albumTitleRendered() {
       return this.album.name.replace(/\s+/g, '<br>');
+    },
+    playingSongLink() {
+      for (const song of this.album.songs) {
+        if (song.id == this.playingSongId) {
+          return song.link;
+        }
+      }
+      return '';
+    },
+    remainingTimeReadable() {
+      let remainingTimeInSec = this.duration - this.currentTime;
+      if (isNaN(remainingTimeInSec)) {
+        return '';
+      }
+      let mins = Math.floor(remainingTimeInSec / 60);
+      let secs = Math.floor(remainingTimeInSec % 60);
+      return mins + ':' + this.paddingNumber(secs, 2);
+    },
+    progressInPercent() {
+      if (isNaN(this.duration)) {
+        return 0 + '%';
+      }
+      return (this.currentTime / this.duration * 100) + '%';
+    }
+  },
+  created() {
+    // initialise audio
+    this.audio.preload = 'metadata';
+    this.audio.src = this.playingSongLink;
+    this.audio.autoplay = this.isPlaying;
+
+    // list loop
+    this.audio.addEventListener('ended', () => {
+      for (let i = 0; i < this.album.songs.length; i++) {
+        if (this.album.songs[i].id == this.playingSongId) {
+          i = (i + 1) % this.album.songs.length;
+          this.playingSongId = this.album.songs[i].id;
+          break;
+        }
+      }
+    });
+
+    // monitor audio progress
+    this.audio.addEventListener('durationchange', () => {
+      this.duration = this.audio.duration;
+    });
+    this.audio.addEventListener('timeupdate', () => {
+      this.currentTime = this.audio.currentTime;
+    });
+  },
+  watch: {
+    isPlaying(newValue) {
+      if (newValue) {
+        this.audio.play();
+      } else {
+        this.audio.pause();
+      }
+    },
+    playingSongLink(newValue) {
+      this.audio.src = newValue;
+      if (this.isPlaying) {
+        this.audio.play();
+      }
     }
   },
   methods: {
     togglePlay() {
       this.isPlaying = !this.isPlaying;
+    },
+    playSongById(id) {
+      this.playingSongId = id;
+    },
+    setProgressByClick(event) {
+      this.audio.currentTime = event.offsetX / event.target.offsetWidth * this.duration;
     },
     paddingNumber(num, length) {
       return (Array(length).join('0') + num).slice(-length);
@@ -170,13 +248,14 @@ section {
     width: 471px;
 
     #player-controller {
-      @length: 62px;
-      @margin: 22.5px;
+      @length: 52px;
+      @margin: 27px;
 
       display: inline-block;
       height: @length + @margin * 2;
       margin-bottom: 13px;
       cursor: pointer;
+      user-select: none;
 
       &::before {
         content: '';
@@ -190,11 +269,11 @@ section {
       &.paused::before {
         width: 0;
         height: 0;
+        margin: @margin (@margin + @length * (1 - sin(60deg)) / 2);
+        background: transparent;
         border-top: (@length / 2) solid transparent;
         border-left: (@length * sin(60deg)) solid @theme-color;
         border-bottom: (@length / 2) solid transparent;
-        margin: @margin (@margin + @length * (1 - sin(60deg)) / 2);
-        background: unset;
       }
 
       span {
@@ -212,14 +291,48 @@ section {
       }
     }
 
-    &::before {
-      content: '';
+    #player-progress {
+      @bar-height: 2px;
+      @padding-v: 10px;
+
       position: absolute;
-      left: 17px;
-      top: 101.5px;
-      width: 454px;
-      height: 1.5px;
-      background: @white;
+      top: 101.5px - @padding-v;
+      height: @padding-v * 2 + @bar-height;
+
+      #player-progress-bar {
+        position: relative;
+        display: inline-block;
+        width: 454px;
+        height: @bar-height;
+        padding: @padding-v 0;
+        margin: 0 17px;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: @bar-height;
+          background: @white;
+        }
+
+        div {
+          position: absolute;
+          height: @bar-height;
+          background: @theme-color;
+        }
+      }
+
+      #player-progress-text {
+        position: absolute;
+        font-family: @theme-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: @padding-v * 2 + @bar-height;
+        letter-spacing: 2px;
+        color: @white;
+      }
     }
 
     .album-song {

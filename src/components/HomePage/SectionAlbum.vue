@@ -149,6 +149,7 @@ section {
     height: 81px;
     box-sizing: border-box;
     border: 5px solid @theme-color;
+    user-select: none;
     cursor: pointer;
 
     img {
@@ -232,7 +233,20 @@ section {
     height: @length;
     border: 6px solid #FFFFFF;
     filter: drop-shadow(-4px 4px 96px rgba(0, 0, 0, 0.1));
-    transform: rotate(-30deg);
+
+    @keyframes falling {
+      0% {
+        transform: translateX(65%) translateY(-115%) rotate(-90deg);
+      }
+
+      100% {
+        transform: rotate(-30deg);
+      }
+    }
+
+    animation: falling 3s ease;
+    animation-delay: 1s;
+    animation-fill-mode: both;
 
     img {
       width: @length;

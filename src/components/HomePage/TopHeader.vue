@@ -34,6 +34,7 @@ header {
     left: 73px;
     top: 45px;
     text-align: center;
+    user-select: none;
     cursor: pointer;
 
     span:first-child {
@@ -105,6 +106,7 @@ header {
     border-radius: @radius;
     background: @black-2;
     text-align: center;
+    user-select: none;
     cursor: pointer;
 
     font-family: @theme-font;

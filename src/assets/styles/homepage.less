@@ -6,3 +6,61 @@
 @black-2: #2B2B2B;
 @yellow: #FFEF5A;
 @blue: #41C9DC;
+
+h1.section-title {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+
+  div {
+    display: inline-block;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 23px;
+      width: 10px;
+      height: 2px;
+      background: @white;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 23px;
+      width: 10px;
+      height: 2px;
+      background: @white;
+      transform: rotate(90deg);
+    }
+  }
+
+  span {
+    position: relative;
+    left: 12px;
+    font-family: 'Solano Gothic MVB', @base-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 120px;
+    line-height: 135px;
+    text-transform: uppercase;
+    color: @white;
+  }
+}
+
+p.section-subtitle {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+
+  font-family: @theme-font;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  text-transform: uppercase;
+  color: @white;
+}

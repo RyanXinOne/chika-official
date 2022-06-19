@@ -38,8 +38,9 @@ section {
     width: @width;
     height: @height;
     overflow-x: hidden;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 40.3%), url(@/assets/cover.jpg);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 40.3%), url(@/assets/images/about-cover.jpg);
     background-size: @width @height;
+    background-repeat: no-repeat;
 
     &::before {
       content: '';
@@ -107,6 +108,7 @@ section {
     letter-spacing: -30px;
     text-transform: uppercase;
     color: @black-2;
+    user-select: none;
 
     span {
       position: relative;
@@ -120,17 +122,12 @@ section {
     position: absolute;
     left: 182px;
     bottom: 77px;
-    width: 297px;
     height: @height;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 22.67px;
 
     img {
       height: @height;
+      margin-right: 22.67px;
+      user-select: none;
       cursor: pointer;
     }
   }

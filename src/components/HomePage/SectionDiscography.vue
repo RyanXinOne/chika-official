@@ -1,9 +1,9 @@
 <template>
   <section id="discography">
-    <h1>
+    <h1 class="section-title">
       <div></div><span>DISCOGRAPHY</span>
     </h1>
-    <p><span>New album SPARK</span> released on Sep. 6</p>
+    <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
     <div id="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="albumgroup" v-for="n in albumGroups" :key="n">
         <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }">
@@ -113,64 +113,12 @@ section#discography {
   background: @theme-color;
   overflow-x: hidden;
 
-  h1 {
-    position: absolute;
+  h1.section-title {
     top: 252px;
-    width: 100%;
-    margin: 0;
-    text-align: center;
-    white-space: nowrap;
-
-    div {
-      display: inline-block;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 23px;
-        width: 10px;
-        height: 2px;
-        background: @white;
-      }
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 23px;
-        width: 10px;
-        height: 2px;
-        background: @white;
-        transform: rotate(90deg);
-      }
-    }
-
-    span {
-      position: relative;
-      left: 12px;
-      font-family: 'Solano Gothic MVB', @base-font;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 120px;
-      line-height: 135px;
-      text-transform: uppercase;
-      color: @white;
-    }
   }
 
-  p {
-    position: absolute;
+  p.section-subtitle {
     top: 407px;
-    width: 100%;
-    margin: 0;
-
-    font-family: @theme-font;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 32px;
-    text-align: center;
-    text-transform: uppercase;
-    color: @white;
 
     span {
       text-decoration-line: underline;

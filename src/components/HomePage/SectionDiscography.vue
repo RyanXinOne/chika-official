@@ -50,9 +50,10 @@ export default {
         },
         { id: 5, name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg') },
       ],
+      scrollSpeed: 1,
+      isScrolling: true,
       transX: 0,
-      clientWidth: document.documentElement.clientWidth || document.body.clientWidth,
-      scrolling: true
+      clientWidth: document.documentElement.clientWidth || document.body.clientWidth
     }
   },
   computed: {
@@ -69,34 +70,38 @@ export default {
       return 'translateX(-' + this.transX + 'px)';
     }
   },
-  methods: {
-    albumsInfiniteScrollAnime() {
-      if (this.scrolling) {
-        this.transX++;
-        if (this.transX >= this.albumGroupWidth * (this.albumGroups / 2)) {
-          this.transX = 0;
-        }
-      }
-      window.requestAnimationFrame(this.albumsInfiniteScrollAnime);
-    },
-    pauseAnime() {
-      this.scrolling = false;
-    },
-    resumeAnime() {
-      this.scrolling = true;
-    },
-    dashedJoinDate(date) {
-      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    }
-  },
-  mounted() {
-    // start infinite scroll animation
-    this.albumsInfiniteScrollAnime();
-
+  created() {
     // listen for window resize
     window.addEventListener('resize', () => {
       this.clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
     });
+  },
+  mounted() {
+    // start infinite scroll animation
+    window.requestAnimationFrame(this.albumsInfiniteScrollAnime);
+  },
+  methods: {
+    albumsInfiniteScrollAnime(timestamp) {
+      if (this.lastTimeStamp !== undefined && this.isScrolling) {
+        // calculate timegap to achieve uniform speed
+        const timegap = timestamp - this.lastTimeStamp;
+        this.transX += 0.06 * this.scrollSpeed * timegap;
+        // recover position to repeat
+        const regressionWidth = this.albumGroupWidth * (this.albumGroups / 2);
+        this.transX %= regressionWidth;
+      }
+      this.lastTimeStamp = timestamp;
+      window.requestAnimationFrame(this.albumsInfiniteScrollAnime);
+    },
+    pauseAnime() {
+      this.isScrolling = false;
+    },
+    resumeAnime() {
+      this.isScrolling = true;
+    },
+    dashedJoinDate(date) {
+      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    }
   }
 }
 </script>
@@ -142,7 +147,7 @@ section#discography {
     span {
       position: relative;
       left: 12px;
-      font-family: @theme-font; // pending modification
+      font-family: 'Solano Gothic MVB', @base-font;
       font-style: normal;
       font-weight: 700;
       font-size: 120px;

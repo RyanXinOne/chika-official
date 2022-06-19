@@ -165,7 +165,7 @@ section {
 
     #album-title {
       display: block;
-      font-family: 'Clash Grotesk';
+      font-family: 'Clash Grotesk', @base-font;
       font-style: normal;
       font-weight: 600;
       font-size: 113.097px;

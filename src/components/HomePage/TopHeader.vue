@@ -26,6 +26,7 @@ header {
   position: relative;
   height: 106px;
   background: @theme-color;
+  overflow: hidden;
 
   #mini-logo {
     position: absolute;
@@ -68,18 +69,12 @@ header {
   }
 
   #nav-menu {
-    @width: 361px;
-    @height: 19px;
-
     position: absolute;
-    left: calc(50% - @width / 2);
-    top: calc(50% - @height / 2 + 17.5px);
-    width: @width;
-    height: @height;
+    top: 61px;
+    width: 100%;
+
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
+    justify-content: center;
     gap: 36px;
 
     span {
@@ -87,7 +82,7 @@ header {
       font-style: normal;
       font-weight: 500;
       font-size: 14px;
-      line-height: @height;
+      line-height: 19px;
       letter-spacing: 1.15px;
       text-transform: uppercase;
       color: @black;

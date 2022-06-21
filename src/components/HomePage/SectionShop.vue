@@ -1,12 +1,14 @@
 <template>
-  <section>
+  <section id="shop">
     <h1 class="section-title">
       <div></div><span>SHOP</span>
     </h1>
     <p class="section-subtitle">SAMPLE PACK BUNDLES & COLLECTIONS | SOUND DESIGN & ACCESSORIES</p>
-    <div id="items">
-      <div class="item" v-for="item in loadItems" :key="item.id">
-        <img :src="item.image" :alt="item.name" />
+    <div class="items-container">
+      <div class="items">
+        <div class="item" v-for="item in loadItems" :key="item.id">
+          <img :src="item.image" :alt="item.name" />
+        </div>
       </div>
     </div>
   </section>
@@ -29,7 +31,7 @@ export default {
         { id: 9, image: require('@/assets/images/shop-mock-item.png'), name: 'Item 9', price: 0 },
         { id: 10, image: require('@/assets/images/shop-mock-item.png'), name: 'Item 10', price: 0 },
       ],
-      displayNum: 0
+      displayNum: 8
     }
   },
   computed: {
@@ -41,28 +43,60 @@ export default {
 </script>
 
 <style lang="less" scoped>
-section {
+section#shop {
   position: relative;
-  height: 1439px;
+  padding: 170px 0 238px 0;
   background: @black-2;
+  overflow: hidden;
 
   &::before {
+    @bg-image-width: 1254px;
+
     content: '';
     position: absolute;
+    top: 185px;
     width: 100%;
-    height: 100%;
-    background: url('@/assets/images/shop-bg.png') bottom right no-repeat;
-    background-size: 1254px 1254px;
+    height: @bg-image-width;
+    background: url('@/assets/images/shop-bg.png') right no-repeat;
+    background-size: @bg-image-width @bg-image-width;
     opacity: 0.1;
   }
 
-  h1.section-title {
-    top: 170px;
+  * {
+    z-index: 0;
   }
 
   p.section-subtitle {
-    top: 325px;
     color: @theme-color;
+  }
+
+  .items-container {
+    width: 100%;
+    padding: 0 128px;
+    box-sizing: border-box;
+    margin-top: 102px;
+
+    .items {
+      @width: 299px;
+
+      display: grid;
+      grid-template-columns: repeat(auto-fill, @width);
+      grid-template-rows: repeat(auto-fill, @width);
+      gap: 20px;
+      justify-content: center;
+
+      .item {
+        width: @width;
+        height: @width;
+        cursor: pointer;
+
+        img {
+          width: @width;
+          height: @width;
+          object-fit: cover;
+        }
+      }
+    }
   }
 }
 </style>

@@ -109,17 +109,11 @@ export default {
 <style lang="less" scoped>
 section#discography {
   position: relative;
-  height: 1000px;
+  padding: 252px 0 170px 0;
   background: @theme-color;
-  overflow-x: hidden;
-
-  h1.section-title {
-    top: 252px;
-  }
+  overflow: hidden;
 
   p.section-subtitle {
-    top: 407px;
-
     span {
       text-decoration-line: underline;
       color: @yellow;
@@ -130,8 +124,7 @@ section#discography {
   #albums {
     @width: 216px;
 
-    position: absolute;
-    top: 614px;
+    margin-top: 190px;
     width: 100%;
     height: @width;
     white-space: nowrap;

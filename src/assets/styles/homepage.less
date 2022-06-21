@@ -8,13 +8,14 @@
 @blue: #41C9DC;
 
 h1.section-title {
-  position: absolute;
+  position: relative;
   width: 100%;
   margin: 0;
   text-align: center;
   white-space: nowrap;
 
   div {
+    position: absolute;
     display: inline-block;
 
     &::before {
@@ -51,9 +52,10 @@ h1.section-title {
 }
 
 p.section-subtitle {
-  position: absolute;
+  position: relative;
   width: 100%;
   margin: 0;
+  margin-top: 20px;
 
   font-family: @theme-font;
   font-style: normal;

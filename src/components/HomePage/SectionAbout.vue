@@ -26,7 +26,7 @@ section {
   position: relative;
   height: 1000px;
   background: @theme-color;
-  overflow-x: hidden;
+  overflow: hidden;
 
   #mask-cover {
     @width: 1000px;
@@ -37,7 +37,6 @@ section {
     right: 0px;
     width: @width;
     height: @height;
-    overflow-x: hidden;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 40.3%), url(@/assets/images/about-cover.jpg);
     background-size: @width @height;
     background-repeat: no-repeat;
@@ -123,6 +122,7 @@ section {
     left: 182px;
     bottom: 77px;
     height: @height;
+    white-space: nowrap;
 
     img {
       height: @height;

@@ -9,9 +9,9 @@
         <div class="item" v-for="item in loadItems" :key="item.id">
           <img :src="item.image" :alt="item.name" />
           <div class="item-hover">
-            <div class="border-dim-1"></div>
-            <div class="border-dim-2"></div>
-            <div class="arrow"></div>
+            <img src="@/assets/svgs/arrow.svg" />
+            <div class="border-inner"></div>
+            <div class="border-middle"></div>
           </div>
         </div>
       </div>
@@ -97,6 +97,7 @@ export default {
       justify-content: center;
 
       .item {
+        position: relative;
         width: @width;
         height: @width;
         cursor: pointer;
@@ -105,6 +106,96 @@ export default {
           width: @width;
           height: @width;
           object-fit: cover;
+        }
+
+        .item-hover {
+          @anime-time: 0.3s;
+
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+
+          background: @theme-color;
+          mix-blend-mode: lighten;
+
+          opacity: 0;
+          transition: opacity @anime-time ease-in;
+
+          img {
+            position: absolute;
+            left: 13.5px;
+            bottom: 13.5px;
+            width: 63.61px;
+            height: 63.61px;
+            transform: rotate(-45deg);
+
+            opacity: 0;
+          }
+
+          .border-inner {
+            @margin: 10.5px;
+
+            position: absolute;
+            left: @margin;
+            top: @margin;
+            width: @width - @margin * 2;
+            height: @width - @margin * 2;
+            box-sizing: border-box;
+            border: 2px solid @white;
+
+            opacity: 0;
+            transition: opacity @anime-time ease-in;
+          }
+
+          .border-middle {
+            @margin: 4.5px;
+
+            position: absolute;
+            left: @margin;
+            top: @margin;
+            width: @width - @margin * 2;
+            height: @width - @margin * 2;
+            box-sizing: border-box;
+            border: 3px solid @white;
+
+            opacity: 0;
+            transition: opacity @anime-time ease-in;
+          }
+
+          &:hover {
+            opacity: 1;
+            transition: opacity @anime-time ease-out;
+
+            img {
+              @keyframes breathe {
+                0% {
+                  opacity: 0;
+                }
+
+                50% {
+                  opacity: 1;
+                }
+
+                100% {
+                  opacity: 0;
+                }
+              }
+
+              animation: breathe 1.2s ease-in-out infinite;
+            }
+
+            .border-middle {
+              opacity: 0.3;
+              transition: opacity @anime-time * 2 ease-out;
+            }
+
+            .border-inner {
+              opacity: 0.5;
+              transition: opacity @anime-time * 3 ease-out;
+            }
+          }
         }
       }
     }

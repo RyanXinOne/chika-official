@@ -6,7 +6,7 @@
     <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
     <div class="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="album-group" v-for="n in albumGroups" :key="n">
-        <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }">
+        <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }" @click="showAlbumContent(album)">
           <img :src="album.image" :alt="album.name" />
           <div class="album-hover">
             <span>{{ album.name }}</span>
@@ -16,7 +16,9 @@
       </div>
     </div>
   </section>
-  <SectionAlbum :album="albumList[3]" />
+  <transition name="album-content" @after-leave="eraseAlbumData">
+    <SectionAlbum v-show="albumContentOn" :album-data="albumData" @close-section="closeAlbumContent" />
+  </transition>
 </template>
 
 <script>
@@ -30,9 +32,9 @@ export default {
   data() {
     return {
       albumList: [
-        { id: 1, name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), isNew: true },
-        { id: 2, name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg') },
-        { id: 3, name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg') },
+        { id: 1, name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ id: 1, name: 'Let Me Hear', link: require('@/assets/audios/cheat3.mp3') }], isNew: true },
+        { id: 2, name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg'), sources: {}, songs: [] },
+        { id: 3, name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg'), sources: {}, songs: [] },
         {
           id: 4,
           name: 'ALBUM CHIKAKA FEAT. SAWANO',
@@ -44,16 +46,18 @@ export default {
             { id: 2, name: 'Swampgator', link: require('@/assets/audios/cheat2.mp3') },
             { id: 3, name: 'Let Me Hear', link: require('@/assets/audios/cheat3.mp3') },
             { id: 4, name: 'Haetae', link: require('@/assets/audios/cheat4.mp3') },
-            { id: 5, name: 'Falling Down feat. Renko  × TRI△NGLE', link: require('@/assets/audios/cheat5.mp3') },
+            { id: 5, name: 'Falling Down feat. Renko × TRI△NGLE', link: require('@/assets/audios/cheat5.mp3') },
             { id: 6, name: 'Count', link: require('@/assets/audios/cheat6.mp3') },
           ]
         },
-        { id: 5, name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg') },
+        { id: 5, name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg'), sources: {}, songs: [] },
       ],
       scrollSpeed: 1,
       isScrolling: true,
       transX: 0,
-      clientWidth: document.documentElement.clientWidth || document.body.clientWidth
+      clientWidth: document.documentElement.clientWidth || document.body.clientWidth,
+      albumContentOn: false,
+      albumData: undefined
     }
   },
   computed: {
@@ -101,6 +105,16 @@ export default {
     },
     dashedJoinDate(date) {
       return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    },
+    showAlbumContent(album) {
+      this.albumData = album;
+      this.albumContentOn = true;
+    },
+    closeAlbumContent() {
+      this.albumContentOn = false;
+    },
+    eraseAlbumData() {
+      this.albumData = undefined;
     }
   }
 }
@@ -219,5 +233,15 @@ export default {
       }
     }
   }
+}
+
+.album-content-enter-from,
+.album-content-leave-to {
+  height: 0;
+}
+
+.album-content-enter-active,
+.album-content-leave-active {
+  transition: all 1s ease;
 }
 </style>

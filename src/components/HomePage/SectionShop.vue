@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="view-more-btn"><span>VIEW MORE</span></div>
+    <div class="view-more-btn" v-if="canLoadMore" @click="displayMore"><span>VIEW MORE</span></div>
   </section>
 </template>
 
@@ -43,6 +43,14 @@ export default {
   computed: {
     loadItems() {
       return this.items.slice(0, this.displayNum);
+    },
+    canLoadMore() {
+      return this.displayNum < this.items.length;
+    }
+  },
+  methods: {
+    displayMore() {
+      this.displayNum += 8;
     }
   }
 }
@@ -67,6 +75,12 @@ export default {
     background-size: @bg-image-width @bg-image-width;
     background-attachment: fixed;
     opacity: 0.1;
+
+    @supports (-webkit-touch-callout: none) {
+      top: 185px;
+      background-position: top right;
+      background-attachment: scroll;
+    }
   }
 
   * {
@@ -101,6 +115,19 @@ export default {
         width: @width;
         height: @width;
         cursor: pointer;
+
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+
+          100% {
+            opacity: 1;
+          }
+        }
+
+        animation: fade-in 1s ease-out;
+        animation-fill-mode: both;
 
         img {
           width: @width;

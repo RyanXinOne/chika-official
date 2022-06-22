@@ -1,18 +1,18 @@
 <template>
   <section class="album-content">
-    <div class="close-btn">
+    <div class="close-btn" @click="$emit('closeSection')">
       <img src="@/assets/svgs/arrow-top-left.svg" alt="↖close" />
     </div>
     <div class="details">
       <span class="title" v-html="albumTitleRendered"></span>
-      <span class="release-date">{{ dotJoinDate(album.date) }} Release</span>
-      <span class="album-source" v-for="(link, src) in album.sources" :key="src">
+      <span class="release-date">{{ dotJoinDate(albumData.date) }} Release</span>
+      <span class="album-source" v-for="(link, src) in albumData.sources" :key="src">
         <a :href="link" target="_blank">{{ src }}</a>
       </span>
     </div>
     <span class="story-btn">+ Read story</span>
     <div class="cover">
-      <img :src="album.image" :alt="album.name" />
+      <img :src="albumData.image" :alt="albumData.name" />
     </div>
     <div class="audition-player">
       <div class="player-controller" :class="{ paused: !isPlaying }" @click="togglePlay">
@@ -25,7 +25,7 @@
         </div>
         <span class="player-progress-text">{{ remainingTimeReadable }}</span>
       </div>
-      <div class="player-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)">
+      <div class="player-song" v-for="song in albumData.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)" :title="song.name">
         <span>{{ paddingNumber(song.id, 2) }}</span>
         <span>{{ song.name }}</span>
       </div>
@@ -36,22 +36,30 @@
 <script>
 export default {
   name: 'SectionAlbum',
-  props: { album: Object },
+  props: {
+    albumData: {
+      type: Object,
+      default() {
+        return { id: 0, name: '', date: new Date(), image: '', sources: {}, songs: [], isNew: false };
+      }
+    }
+  },
+  emits: { closeSection: null },
   data() {
     return {
       audio: new Audio(),
       isPlaying: false,
-      playingSongId: this.album.songs.length > 0 ? this.album.songs[0].id : -1,
+      playingSongId: this.albumData.songs.length > 0 ? this.albumData.songs[0].id : -1,
       duration: NaN,
       currentTime: 0
     }
   },
   computed: {
     albumTitleRendered() {
-      return this.album.name.replace(/\s+/g, '<br>');
+      return this.albumData.name.replace(/\s+/g, '<br>');
     },
     playingSongLink() {
-      for (const song of this.album.songs) {
+      for (const song of this.albumData.songs) {
         if (song.id == this.playingSongId) {
           return song.link;
         }
@@ -75,6 +83,9 @@ export default {
     }
   },
   created() {
+    // reject playing if there is no song
+    this.isPlaying &&= this.playingSongLink !== '';
+
     // initialise audio
     this.audio.preload = 'metadata';
     this.audio.src = this.playingSongLink;
@@ -82,10 +93,10 @@ export default {
 
     // list loop
     this.audio.addEventListener('ended', () => {
-      for (let i = 0; i < this.album.songs.length; i++) {
-        if (this.album.songs[i].id == this.playingSongId) {
-          i = (i + 1) % this.album.songs.length;
-          this.playingSongId = this.album.songs[i].id;
+      for (let i = 0; i < this.albumData.songs.length; i++) {
+        if (this.albumData.songs[i].id == this.playingSongId) {
+          i = (i + 1) % this.albumData.songs.length;
+          this.playingSongId = this.albumData.songs[i].id;
           break;
         }
       }
@@ -109,14 +120,22 @@ export default {
     },
     playingSongLink(newValue) {
       this.audio.src = newValue;
-      if (this.isPlaying) {
+      if (this.isPlaying && newValue !== '') {
         this.audio.play();
       }
+    },
+    albumData() {
+      this.playingSongId = this.albumData.songs.length > 0 ? this.albumData.songs[0].id : -1;
+      // reject playing if there is no song
+      this.isPlaying &&= this.playingSongLink !== '';
     }
   },
   methods: {
     togglePlay() {
-      this.isPlaying = !this.isPlaying;
+      // reject playing if there is no song
+      if (this.playingSongLink !== '') {
+        this.isPlaying = !this.isPlaying;
+      }
     },
     playSongById(id) {
       this.playingSongId = id;
@@ -245,7 +264,7 @@ export default {
     }
 
     animation: falling 3s ease;
-    animation-delay: 1s;
+    animation-delay: 0.5s;
     animation-fill-mode: both;
 
     img {
@@ -370,7 +389,12 @@ export default {
       span:last-child {
         position: absolute;
         left: 72px;
+        display: inline-block;
+        width: 440px;
+
+        overflow-x: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

@@ -5,10 +5,10 @@
     </h1>
     <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
     <div class="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
-      <div class="albumgroup" v-for="n in albumGroups" :key="n">
+      <div class="album-group" v-for="n in albumGroups" :key="n">
         <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }">
           <img :src="album.image" :alt="album.name" />
-          <div class="albumhover">
+          <div class="album-hover">
             <span>{{ album.name }}</span>
             <span>{{ dashedJoinDate(album.date) }}</span>
           </div>
@@ -129,7 +129,7 @@ export default {
     height: @width;
     white-space: nowrap;
 
-    .albumgroup {
+    .album-group {
       display: inline-block;
       height: @width;
 
@@ -165,7 +165,7 @@ export default {
           color: @blue;
         }
 
-        .albumhover {
+        .album-hover {
           opacity: 0;
           transition: opacity 0.3s ease-in;
 

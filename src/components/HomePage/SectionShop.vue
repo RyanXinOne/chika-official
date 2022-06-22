@@ -8,6 +8,11 @@
       <div class="items">
         <div class="item" v-for="item in loadItems" :key="item.id">
           <img :src="item.image" :alt="item.name" />
+          <div class="item-hover">
+            <div class="border-dim-1"></div>
+            <div class="border-dim-2"></div>
+            <div class="arrow"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -55,17 +60,17 @@ export default {
 
     content: '';
     position: absolute;
-    top: 185px;
+    top: 0;
     width: 100%;
-    height: @bg-image-width;
-    background: url('@/assets/images/shop-bg.png') right no-repeat;
+    height: 100%;
+    background: url('@/assets/images/shop-bg.png') center right no-repeat;
     background-size: @bg-image-width @bg-image-width;
+    background-attachment: fixed;
     opacity: 0.1;
   }
 
   * {
     position: relative;
-    z-index: 0;
   }
 
   p.section-subtitle {

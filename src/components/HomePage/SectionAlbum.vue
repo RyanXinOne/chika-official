@@ -1,31 +1,31 @@
 <template>
-  <section>
-    <div id="album-close">
+  <section class="album-content">
+    <div class="close-btn">
       <img src="@/assets/svgs/arrow-top-left.svg" alt="↖close" />
     </div>
-    <div id="album-detail">
-      <span id="album-title" v-html="albumTitleRendered"></span>
-      <span id="album-release">{{ dotJoinDate(album.date) }} Release</span>
+    <div class="details">
+      <span class="title" v-html="albumTitleRendered"></span>
+      <span class="release-date">{{ dotJoinDate(album.date) }} Release</span>
       <span class="album-source" v-for="(link, src) in album.sources" :key="src">
         <a :href="link" target="_blank">{{ src }}</a>
       </span>
     </div>
-    <span id="album-story">+ Read story</span>
-    <div id="album-cover">
+    <span class="story-btn">+ Read story</span>
+    <div class="cover">
       <img :src="album.image" :alt="album.name" />
     </div>
-    <div id="album-audition">
-      <div id="player-controller" :class="{ paused: !isPlaying }" @click="togglePlay">
+    <div class="audition-player">
+      <div class="player-controller" :class="{ paused: !isPlaying }" @click="togglePlay">
         <span v-if="isPlaying">STOP</span>
         <span v-else>PLAY</span>
       </div>
-      <div id="player-progress">
-        <div id="player-progress-bar" @click="setProgressByClick">
+      <div class="player-progress">
+        <div class="player-progress-bar" @click="setProgressByClick">
           <div :style="{ width: progressInPercent }"></div>
         </div>
-        <span id="player-progress-text">{{ remainingTimeReadable }}</span>
+        <span class="player-progress-text">{{ remainingTimeReadable }}</span>
       </div>
-      <div class="album-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)">
+      <div class="player-song" v-for="song in album.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)">
         <span>{{ paddingNumber(song.id, 2) }}</span>
         <span>{{ song.name }}</span>
       </div>
@@ -135,13 +135,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-section {
+.album-content {
   position: relative;
   height: 1000px;
   background: @black-2;
   overflow: hidden;
 
-  #album-close {
+  .close-btn {
     position: absolute;
     top: 0;
     left: 0;
@@ -159,12 +159,12 @@ section {
     }
   }
 
-  #album-detail {
+  .details {
     position: absolute;
     left: 89px;
     top: 75px;
 
-    #album-title {
+    .title {
       display: block;
       font-family: 'Clash Grotesk', @base-font;
       font-style: normal;
@@ -176,7 +176,7 @@ section {
       color: @theme-color;
     }
 
-    #album-release {
+    .release-date {
       display: block;
       margin-top: 4px;
       font-family: @theme-font;
@@ -207,7 +207,7 @@ section {
     }
   }
 
-  #album-story {
+  .story-btn {
     position: absolute;
     left: 89px;
     top: 924px;
@@ -223,7 +223,7 @@ section {
     color: @theme-color;
   }
 
-  #album-cover {
+  .cover {
     @length: 480.9px;
 
     position: absolute;
@@ -231,8 +231,7 @@ section {
     top: 1px;
     width: @length;
     height: @length;
-    border: 6px solid #FFFFFF;
-    filter: drop-shadow(-4px 4px 96px rgba(0, 0, 0, 0.1));
+    border: 6px solid @white;
 
     @keyframes falling {
       0% {
@@ -241,6 +240,7 @@ section {
 
       100% {
         transform: rotate(-30deg);
+        filter: drop-shadow(-4px 4px 96px rgba(0, 0, 0, 0.1));
       }
     }
 
@@ -255,13 +255,13 @@ section {
     }
   }
 
-  #album-audition {
+  .audition-player {
     position: absolute;
     right: 320px;
     top: 511px;
     width: 471px;
 
-    #player-controller {
+    .player-controller {
       @length: 52px;
       @margin: 27px;
 
@@ -305,7 +305,7 @@ section {
       }
     }
 
-    #player-progress {
+    .player-progress {
       @bar-height: 2px;
       @padding-v: 10px;
 
@@ -313,7 +313,7 @@ section {
       top: 101.5px - @padding-v;
       height: @padding-v * 2 + @bar-height;
 
-      #player-progress-bar {
+      .player-progress-bar {
         position: relative;
         display: inline-block;
         width: 454px;
@@ -337,7 +337,7 @@ section {
         }
       }
 
-      #player-progress-text {
+      .player-progress-text {
         position: absolute;
         font-family: @theme-font;
         font-style: normal;
@@ -349,7 +349,7 @@ section {
       }
     }
 
-    .album-song {
+    .player-song {
       position: relative;
       margin-left: 24px;
       margin-bottom: 16px;

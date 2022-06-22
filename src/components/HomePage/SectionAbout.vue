@@ -1,11 +1,11 @@
 <template>
-  <section>
-    <div id="mask-cover">
+  <section id="about">
+    <div class="mask-cover">
       <div></div>
     </div>
-    <span id="description">Music producer/mixing engineer/composer<br>take your song to the next level.</span>
-    <span id="big-logo">FU<span>U</span></span>
-    <div id="social-icons">
+    <span class="description">Music producer/mixing engineer/composer<br>take your song to the next level.</span>
+    <span class="big-logo">FU<span>U</span></span>
+    <div class="social-icons">
       <img src="@/assets/svgs/instagram.svg" />
       <img src="@/assets/svgs/twitter.svg" />
       <img src="@/assets/svgs/youtube.svg" />
@@ -22,13 +22,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-section {
+#about {
   position: relative;
   height: 1000px;
   background: @theme-color;
   overflow: hidden;
 
-  #mask-cover {
+  .mask-cover {
     @width: 1000px;
     @height: 1000px;
 
@@ -79,7 +79,7 @@ section {
     }
   }
 
-  #description {
+  .description {
     position: absolute;
     left: 182px;
     top: 236px;
@@ -94,7 +94,7 @@ section {
     color: @black-2;
   }
 
-  #big-logo {
+  .big-logo {
     position: absolute;
     left: 168px;
     top: 274px;
@@ -115,7 +115,7 @@ section {
     }
   }
 
-  #social-icons {
+  .social-icons {
     @height: 37.79px;
 
     position: absolute;

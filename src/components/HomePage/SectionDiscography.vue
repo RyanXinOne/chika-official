@@ -4,7 +4,7 @@
       <div></div><span>DISCOGRAPHY</span>
     </h1>
     <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
-    <div id="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
+    <div class="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="albumgroup" v-for="n in albumGroups" :key="n">
         <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }">
           <img :src="album.image" :alt="album.name" />
@@ -107,7 +107,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-section#discography {
+#discography {
   position: relative;
   padding: 252px 0 170px 0;
   background: @theme-color;
@@ -121,7 +121,7 @@ section#discography {
     }
   }
 
-  #albums {
+  .albums {
     @width: 216px;
 
     margin-top: 190px;

@@ -11,6 +11,7 @@
         </div>
       </div>
     </div>
+    <div class="view-more-btn"><span>VIEW MORE</span></div>
   </section>
 </template>
 
@@ -43,7 +44,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-section#shop {
+#shop {
   position: relative;
   padding: 170px 0 238px 0;
   background: @black-2;
@@ -63,6 +64,7 @@ section#shop {
   }
 
   * {
+    position: relative;
     z-index: 0;
   }
 
@@ -71,18 +73,22 @@ section#shop {
   }
 
   .items-container {
-    width: 100%;
-    padding: 0 128px;
-    box-sizing: border-box;
     margin-top: 102px;
+    padding: 0 128px;
+    text-align: center;
 
     .items {
       @width: 299px;
+      @gap: 20px;
+      @max-columns: 4;
 
-      display: grid;
+      width: 100%;
+      max-width: @width * @max-columns + @gap * (@max-columns - 1);
+
+      display: inline-grid;
       grid-template-columns: repeat(auto-fill, @width);
       grid-template-rows: repeat(auto-fill, @width);
-      gap: 20px;
+      gap: @gap;
       justify-content: center;
 
       .item {
@@ -96,6 +102,25 @@ section#shop {
           object-fit: cover;
         }
       }
+    }
+  }
+
+  .view-more-btn {
+    margin-top: 102px;
+    text-align: center;
+
+    span {
+      cursor: pointer;
+
+      font-family: @theme-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 4px;
+      text-decoration-line: underline;
+      text-transform: uppercase;
+      color: @white;
     }
   }
 }

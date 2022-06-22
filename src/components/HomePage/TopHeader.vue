@@ -1,17 +1,17 @@
 <template>
   <header>
-    <div id="mini-logo">
+    <div class="mini-logo">
       <span>FUU</span>
       <div></div>
       <span>MUSIC</span>
     </div>
-    <div id="nav-menu">
+    <div class="nav-menu">
       <span>ABOUT</span>
       <span>DISCOGRAPHY</span>
       <span>SHOP</span>
       <span>WORK</span>
     </div>
-    <div id="lang-btn">EN</div>
+    <div class="lang-btn">EN</div>
   </header>
 </template>
 
@@ -28,7 +28,7 @@ header {
   background: @theme-color;
   overflow: hidden;
 
-  #mini-logo {
+  .mini-logo {
     position: absolute;
     width: 65px;
     height: 55px;
@@ -68,7 +68,7 @@ header {
     }
   }
 
-  #nav-menu {
+  .nav-menu {
     position: absolute;
     top: 61px;
     width: 100%;
@@ -90,7 +90,7 @@ header {
     }
   }
 
-  #lang-btn {
+  .lang-btn {
     @radius: 21.5px;
 
     position: absolute;

@@ -48,7 +48,6 @@ export default {
       audio: new Audio(),
       isPlaying: false,
       playingSongId: undefined,
-      playingSongLink: undefined,
       currentTime: 0,
       duration: NaN
     }
@@ -107,8 +106,8 @@ export default {
   },
   methods: {
     togglePlay() {
-      // reject playing if there is no song
-      if (this.playingSongLink !== '') {
+      // reject playing if there is no valid playing song
+      if (this.albumData.songs[this.playingSongId] !== undefined) {
         this.isPlaying = !this.isPlaying;
       }
     },
@@ -117,13 +116,13 @@ export default {
 
       // update playing song link, empty string if invalid id
       const song = this.albumData.songs[this.playingSongId];
-      this.playingSongLink = song !== undefined ? song.link : '';
+      const playingSongLink = song !== undefined ? song.link : '';
 
-      // reject playing if there is no song
-      this.isPlaying &&= this.playingSongLink !== '';
+      // reject playing if there is no valid playing song
+      this.isPlaying &&= playingSongLink !== '';
 
       // the update of playingSongId forces to reload the audio, even if source link remains unchanged
-      this.audio.src = this.playingSongLink;
+      this.audio.src = playingSongLink;
       this.currentTime = 0;
       this.audio.load();
       if (this.isPlaying) {
@@ -131,7 +130,11 @@ export default {
       }
     },
     playSongByIndex(index) {
-      this.updatePlayingSongById(index);
+      if (index === this.playingSongId) {
+        this.togglePlay();
+      } else {
+        this.updatePlayingSongById(index);
+      }
     },
     setProgressByClick(event) {
       this.audio.currentTime = event.offsetX / event.target.offsetWidth * this.duration;

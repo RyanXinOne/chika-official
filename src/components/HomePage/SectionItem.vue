@@ -168,9 +168,9 @@ export default {
       }
     }
 
-    animation: fade-in 0.3s ease-in-out;
+    animation: fade-in 0.4s ease-in-out;
     animation-fill-mode: both;
-    animation-delay: 0.5s;
+    animation-delay: 0.8s;
 
     .close-btn {
       @size: 124px;

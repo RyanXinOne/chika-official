@@ -18,7 +18,7 @@
     </div>
     <div class="view-more-btn" v-if="canLoadMore" @click="displayMore"><span>VIEW MORE</span></div>
   </section>
-  <transition name="item-content" @after-leave="eraseItemData">
+  <transition name="item-content">
     <SectionItem v-if="itemContentOn" :item-data="itemData" @close-section="closeItemContent" />
   </transition>
 </template>
@@ -82,9 +82,6 @@ export default {
     },
     closeItemContent() {
       this.itemContentOn = false;
-    },
-    eraseItemData() {
-      this.itemData = undefined;
     }
   }
 }
@@ -288,10 +285,10 @@ export default {
 }
 
 .item-content-enter-active {
-  transition: transform 0.5s ease-out;
+  transition: transform 0.8s ease-out;
 }
 
 .item-content-leave-active {
-  transition: transform 0.5s ease-in;
+  transition: transform 0.8s ease-in;
 }
 </style>

@@ -6,7 +6,7 @@
     <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
     <div class="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="album-group" v-for="n in albumGroups" :key="n">
-        <div class="album" v-for="album in albumList" :key="album.id" :class="{ new: album.isNew }" @click="showAlbumContent(album)">
+        <div class="album" v-for="(album, index) in albumList" :key="index" :class="{ new: album.isNew }" @click="showAlbumContent(album)">
           <img :src="album.image" :alt="album.name" />
           <div class="album-hover">
             <span>{{ album.name }}</span>
@@ -32,25 +32,24 @@ export default {
   data() {
     return {
       albumList: [
-        { id: 1, name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ id: 1, name: 'Let Me Hear', link: require('@/assets/audios/cheat3.mp3') }], isNew: true },
-        { id: 2, name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg'), sources: {}, songs: [] },
-        { id: 3, name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg'), sources: {}, songs: [] },
+        { name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') }], isNew: true },
+        { name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg'), sources: {}, songs: [] },
+        { name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg'), sources: {}, songs: [] },
         {
-          id: 4,
           name: 'ALBUM CHIKAKA FEAT. SAWANO',
           date: new Date('2022-12-22'),
           image: require('@/assets/albums/4.jpg'),
           sources: { "Wangyiyun": "https://music.163.com/", "AppleMusic": "https://www.apple.com/apple-music/" },
           songs: [
-            { id: 1, name: 'Trinity Force', link: require('@/assets/audios/cheat1.mp3') },
-            { id: 2, name: 'Swampgator', link: require('@/assets/audios/cheat2.mp3') },
-            { id: 3, name: 'Let Me Hear', link: require('@/assets/audios/cheat3.mp3') },
-            { id: 4, name: 'Haetae', link: require('@/assets/audios/cheat4.mp3') },
-            { id: 5, name: 'Falling Down feat. Renko × TRI△NGLE', link: require('@/assets/audios/cheat5.mp3') },
-            { id: 6, name: 'Count', link: require('@/assets/audios/cheat6.mp3') },
+            { name: 'Trinity Force', link: require('@/assets/audios/cheat.mp3') },
+            { name: 'Swampgator', link: require('@/assets/audios/cheat.mp3') },
+            { name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') },
+            { name: 'Haetae', link: require('@/assets/audios/cheat.mp3') },
+            { name: 'Falling Down feat. Renko × TRI△NGLE', link: require('@/assets/audios/cheat.mp3') },
+            { name: 'Count', link: require('@/assets/audios/cheat.mp3') },
           ]
         },
-        { id: 5, name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg'), sources: {}, songs: [] },
+        { name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg'), sources: {}, songs: [] },
       ],
       scrollSpeed: 1,
       isScrolling: true,
@@ -242,6 +241,6 @@ export default {
 
 .album-content-enter-active,
 .album-content-leave-active {
-  transition: all 1s ease;
+  transition: height 1s ease;
 }
 </style>

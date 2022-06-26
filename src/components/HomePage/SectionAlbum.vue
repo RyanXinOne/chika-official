@@ -6,9 +6,7 @@
     <div class="details">
       <span class="title" v-html="albumTitleRendered"></span>
       <span class="release-date">{{ dotJoinDate(albumData.date) }} Release</span>
-      <span class="album-source" v-for="(link, src) in albumData.sources" :key="src">
-        <a :href="link" target="_blank">{{ src }}</a>
-      </span>
+      <a class="album-source" v-for="(link, src) in albumData.sources" :key="src" :href="link" target="_blank">{{ src }}</a>
     </div>
     <span class="story-btn">+ Read story</span>
     <div class="cover">
@@ -25,8 +23,8 @@
         </div>
         <span class="player-progress-text">{{ remainingTimeReadable }}</span>
       </div>
-      <div class="player-song" v-for="song in albumData.songs" :key="song.id" :class="{ playing: song.id == playingSongId }" @click="playSongById(song.id)" :title="song.name">
-        <span>{{ paddingNumber(song.id, 2) }}</span>
+      <div class="player-song" v-for="(song, index) in albumData.songs" :key="index" :class="{ playing: index === playingSongId }" @click="playSongByIndex(index)" :title="song.name">
+        <span>{{ paddingNumber(index + 1, 2) }}</span>
         <span>{{ song.name }}</span>
       </div>
     </div>
@@ -40,7 +38,7 @@ export default {
     albumData: {
       type: Object,
       default() {
-        return { id: 0, name: '', date: new Date(), image: '', sources: {}, songs: [], isNew: false };
+        return { name: '', date: new Date(), image: '', sources: {}, songs: [], isNew: false };
       }
     }
   },
@@ -49,22 +47,15 @@ export default {
     return {
       audio: new Audio(),
       isPlaying: false,
-      playingSongId: this.albumData.songs.length > 0 ? this.albumData.songs[0].id : -1,
-      duration: NaN,
-      currentTime: 0
+      playingSongId: undefined,
+      playingSongLink: undefined,
+      currentTime: 0,
+      duration: NaN
     }
   },
   computed: {
     albumTitleRendered() {
       return this.albumData.name.replace(/\s+/g, '<br>');
-    },
-    playingSongLink() {
-      for (const song of this.albumData.songs) {
-        if (song.id == this.playingSongId) {
-          return song.link;
-        }
-      }
-      return '';
     },
     remainingTimeReadable() {
       let remainingTimeInSec = this.duration - this.currentTime;
@@ -83,23 +74,12 @@ export default {
     }
   },
   created() {
-    // reject playing if there is no song
-    this.isPlaying &&= this.playingSongLink !== '';
-
     // initialise audio
     this.audio.preload = 'metadata';
-    this.audio.src = this.playingSongLink;
-    this.audio.autoplay = this.isPlaying;
 
     // list loop
     this.audio.addEventListener('ended', () => {
-      for (let i = 0; i < this.albumData.songs.length; i++) {
-        if (this.albumData.songs[i].id == this.playingSongId) {
-          i = (i + 1) % this.albumData.songs.length;
-          this.playingSongId = this.albumData.songs[i].id;
-          break;
-        }
-      }
+      this.updatePlayingSongById(++this.playingSongId % this.albumData.songs.length);
     });
 
     // monitor audio progress
@@ -109,6 +89,9 @@ export default {
     this.audio.addEventListener('timeupdate', () => {
       this.currentTime = this.audio.currentTime;
     });
+
+    // initialise playing song
+    this.updatePlayingSongById(0);
   },
   watch: {
     isPlaying(newValue) {
@@ -118,16 +101,8 @@ export default {
         this.audio.pause();
       }
     },
-    playingSongLink(newValue) {
-      this.audio.src = newValue;
-      if (this.isPlaying && newValue !== '') {
-        this.audio.play();
-      }
-    },
     albumData() {
-      this.playingSongId = this.albumData.songs.length > 0 ? this.albumData.songs[0].id : -1;
-      // reject playing if there is no song
-      this.isPlaying &&= this.playingSongLink !== '';
+      this.updatePlayingSongById(0);
     }
   },
   methods: {
@@ -137,8 +112,26 @@ export default {
         this.isPlaying = !this.isPlaying;
       }
     },
-    playSongById(id) {
-      this.playingSongId = id;
+    updatePlayingSongById(index) {
+      this.playingSongId = index;
+
+      // update playing song link, empty string if invalid id
+      const song = this.albumData.songs[this.playingSongId];
+      this.playingSongLink = song !== undefined ? song.link : '';
+
+      // reject playing if there is no song
+      this.isPlaying &&= this.playingSongLink !== '';
+
+      // the update of playingSongId forces to reload the audio, even if source link remains unchanged
+      this.audio.src = this.playingSongLink;
+      this.currentTime = 0;
+      this.audio.load();
+      if (this.isPlaying) {
+        this.audio.play();
+      }
+    },
+    playSongByIndex(index) {
+      this.updatePlayingSongById(index);
     },
     setProgressByClick(event) {
       this.audio.currentTime = event.offsetX / event.target.offsetWidth * this.duration;
@@ -218,11 +211,6 @@ export default {
       letter-spacing: 1px;
       text-decoration-line: underline;
       color: @theme-color;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
     }
   }
 

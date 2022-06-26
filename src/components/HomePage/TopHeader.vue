@@ -1,15 +1,15 @@
 <template>
   <header>
+    <div class="nav-menu">
+      <a href="#about">ABOUT</a>
+      <a href="#discography">DISCOGRAPHY</a>
+      <a href="#shop">SHOP</a>
+      <a href="#work">WORK</a>
+    </div>
     <div class="mini-logo">
       <span>FUU</span>
       <div></div>
       <span>MUSIC</span>
-    </div>
-    <div class="nav-menu">
-      <span>ABOUT</span>
-      <span>DISCOGRAPHY</span>
-      <span>SHOP</span>
-      <span>WORK</span>
     </div>
     <div class="lang-btn">EN</div>
   </header>
@@ -27,6 +27,29 @@ header {
   height: 106px;
   background: @theme-color;
   overflow: hidden;
+
+  .nav-menu {
+    position: absolute;
+    top: 61px;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+
+    a {
+      font-family: @theme-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 19px;
+      letter-spacing: 1.15px;
+      text-transform: uppercase;
+      color: @black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
 
   .mini-logo {
     position: absolute;
@@ -65,28 +88,6 @@ header {
       letter-spacing: 5px;
       text-transform: uppercase;
       color: @black;
-    }
-  }
-
-  .nav-menu {
-    position: absolute;
-    top: 61px;
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-    gap: 36px;
-
-    span {
-      font-family: @theme-font;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 19px;
-      letter-spacing: 1.15px;
-      text-transform: uppercase;
-      color: @black;
-      cursor: pointer;
     }
   }
 

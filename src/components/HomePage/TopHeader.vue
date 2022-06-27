@@ -6,11 +6,11 @@
       <a href="#shop">SHOP</a>
       <a href="#work">WORK</a>
     </div>
-    <div class="mini-logo">
+    <a class="mini-logo" href="#">
       <span>FUU</span>
       <div></div>
       <span>MUSIC</span>
-    </div>
+    </a>
     <div class="lang-btn">EN</div>
   </header>
 </template>
@@ -53,11 +53,13 @@ header {
 
   .mini-logo {
     position: absolute;
+    display: block;
     width: 65px;
     height: 55px;
     left: 73px;
     top: 45px;
     text-align: center;
+    text-decoration: none;
     user-select: none;
     cursor: pointer;
 

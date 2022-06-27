@@ -21,6 +21,10 @@ export default {
   src: url('@/assets/fonts/SolanoGothicMVB-Bd.ttf') format('truetype');
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
 }

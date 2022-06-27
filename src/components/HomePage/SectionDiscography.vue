@@ -3,8 +3,8 @@
     <h1 class="section-title">
       <div></div><span>DISCOGRAPHY</span>
     </h1>
-    <p class="section-subtitle"><span>New album SPARK</span> released on Sep. 6</p>
-    <div class="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
+    <p class="section-subtitle" v-if="firstNewAlbum"><a href="#albums" @click="showAlbumContent(firstNewAlbum)">New album {{ firstNewAlbum.name }}</a> released on {{ readableDate(firstNewAlbum.date) }}</p>
+    <div class="albums" id="albums" :style="{ transform: translateX }" @mouseover="pauseAnime" @mouseout="resumeAnime">
       <div class="album-group" v-for="n in albumGroups" :key="n">
         <div class="album" v-for="(album, index) in albumList" :key="index" :class="{ new: album.isNew }" @click="showAlbumContent(album)">
           <img :src="album.image" :alt="album.name" />
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       albumList: [
-        { name: 'CHIKAKA', date: new Date('2022-06-01'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') }], isNew: true },
+        { name: 'CHIKAKA', date: new Date('2022-09-06'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') }], isNew: true },
         { name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg'), sources: {}, songs: [] },
         { name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg'), sources: {}, songs: [] },
         {
@@ -71,6 +71,14 @@ export default {
     translateX() {
       // compute translateX effect of CSS transform
       return 'translateX(-' + this.transX + 'px)';
+    },
+    firstNewAlbum() {
+      for (const album of this.albumList) {
+        if (album.isNew) {
+          return album;
+        }
+      }
+      return null;
     }
   },
   created() {
@@ -105,6 +113,10 @@ export default {
     dashedJoinDate(date) {
       return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     },
+    readableDate(date) {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return months[date.getMonth()] + '. ' + date.getDate();
+    },
     showAlbumContent(album) {
       this.albumData = album;
       this.albumContentOn = true;
@@ -127,7 +139,7 @@ export default {
   overflow: hidden;
 
   p.section-subtitle {
-    span {
+    a {
       text-decoration-line: underline;
       color: @yellow;
       cursor: pointer;

@@ -1,16 +1,16 @@
 <template>
-  <section class="album-content">
+  <section class="album-content" :class="{ 'fade-out': transitionFrom, 'fade-in': transitionTo }">
     <div class="close-btn" @click="$emit('closeSection')">
       <img src="@/assets/svgs/arrow-top-left.svg" alt="↖close" />
     </div>
     <div class="details">
       <span class="title" v-html="albumTitleRendered"></span>
-      <span class="release-date">{{ dotJoinDate(albumData.date) }} Release</span>
-      <a class="album-source" v-for="(link, src) in albumData.sources" :key="src" :href="link" target="_blank">{{ src }}</a>
+      <span class="release-date">{{ dotJoinDate(albumDataEn.date) }} Release</span>
+      <a class="album-source" v-for="(link, src) in albumDataEn.sources" :key="src" :href="link" target="_blank">{{ src }}</a>
     </div>
     <span class="story-btn">+ Read story</span>
     <div class="cover">
-      <img :src="albumData.image" :alt="albumData.name" />
+      <img :src="albumDataEn.image" :alt="albumDataEn.name" />
     </div>
     <div class="audition-player">
       <div class="player-controller" :class="{ paused: !isPlaying }" @click="togglePlay">
@@ -23,7 +23,7 @@
         </div>
         <span class="player-progress-text">{{ remainingTimeReadable }}</span>
       </div>
-      <div class="player-song" v-for="(song, index) in albumData.songs" :key="index" :class="{ playing: index === playingSongId }" @click="playSongByIndex(index)" :title="song.name">
+      <div class="player-song" v-for="(song, index) in albumDataEn.songs" :key="index" :class="{ playing: index === playingSongId }" @click="playSongByIndex(index)" :title="song.name">
         <span>{{ paddingNumber(index + 1, 2) }}</span>
         <span>{{ song.name }}</span>
       </div>
@@ -38,23 +38,25 @@ export default {
     albumData: {
       type: Object,
       default() {
-        return { name: '', date: new Date(), image: '', sources: {}, songs: [], isNew: false };
+        return { name: '', date: new Date(), image: '', sources: {}, songs: [], isNew: false, _isDefault: true };
       }
     }
   },
   emits: { closeSection: null },
   data() {
     return {
+      albumDataEn: this.albumData,
       audio: new Audio(),
       isPlaying: false,
-      playingSongId: undefined,
+      playingSongId: 0,
       currentTime: 0,
-      duration: NaN
+      duration: NaN,
+      transitioning: 'stopped'
     }
   },
   computed: {
     albumTitleRendered() {
-      return this.albumData.name.replace(/\s+/g, '<br>');
+      return this.albumDataEn.name.replace(/\s+/g, '<br>');
     },
     remainingTimeReadable() {
       let remainingTimeInSec = this.duration - this.currentTime;
@@ -70,6 +72,12 @@ export default {
         return 0 + '%';
       }
       return (this.currentTime / this.duration * 100) + '%';
+    },
+    transitionFrom() {
+      return this.transitioning === 'from';
+    },
+    transitionTo() {
+      return this.transitioning === 'to';
     }
   },
   created() {
@@ -78,7 +86,7 @@ export default {
 
     // list loop
     this.audio.addEventListener('ended', () => {
-      this.updatePlayingSongById(++this.playingSongId % this.albumData.songs.length);
+      this.updatePlayingSongById(++this.playingSongId % this.albumDataEn.songs.length);
     });
 
     // monitor audio progress
@@ -100,14 +108,38 @@ export default {
         this.audio.pause();
       }
     },
-    albumData() {
+    albumData(newValue, oldValue) {
+      // skip fade animation if enter or leave
+      if (newValue._isDefault || oldValue._isDefault) {
+        this.albumDataEn = newValue;
+      } else {
+        // remove preexistent animation
+        clearTimeout(this.transitionTimeOut);
+
+        // start fade-out animation
+        this.transitioning = 'from';
+
+        this.transitionTimeOut = setTimeout(() => {
+          // start fade-in animation
+          this.albumDataEn = newValue;
+          this.transitioning = 'to';
+
+          this.transitionTimeOut = setTimeout(() => {
+            // animation ended
+            this.transitioning = 'stopped';
+          }, 500);
+        }, 500);
+      }
+    },
+    albumDataEn() {
+      // content updated, update playing song
       this.updatePlayingSongById(0);
     }
   },
   methods: {
     togglePlay() {
       // reject playing if there is no valid playing song
-      if (this.albumData.songs[this.playingSongId] !== undefined) {
+      if (this.albumDataEn.songs[this.playingSongId] !== undefined) {
         this.isPlaying = !this.isPlaying;
       }
     },
@@ -115,7 +147,7 @@ export default {
       this.playingSongId = index;
 
       // update playing song link, empty string if invalid id
-      const song = this.albumData.songs[this.playingSongId];
+      const song = this.albumDataEn.songs[this.playingSongId];
       const playingSongLink = song !== undefined ? song.link : '';
 
       // reject playing if there is no valid playing song
@@ -124,6 +156,7 @@ export default {
       // the update of playingSongId forces to reload the audio, even if source link remains unchanged
       this.audio.src = playingSongLink;
       this.currentTime = 0;
+      this.duration = NaN;
       this.audio.load();
       if (this.isPlaying) {
         this.audio.play();
@@ -388,6 +421,31 @@ export default {
         text-overflow: ellipsis;
       }
     }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.fade-out::after {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+
+  &.fade-in::after {
+    visibility: visible;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
   }
 }
 </style>

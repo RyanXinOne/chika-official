@@ -1,0 +1,113 @@
+[
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.01",
+    "price": "$ 1.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "Volume 1 focuses on OB-Xd, a great VST synth that emulates the legendary Oberheim OB-X",
+      "",
+      "You can get it on discoDSP's website",
+      "",
+      "The pack contains:",
+      "15 OB-Xd Patches, 15 Loops/Riffs, 15 Midi Files",
+      "",
+      "26 x claps & rimshots",
+      "59 x kicks",
+      "93 x loops",
+      "60 x digital percussion; and",
+      "73 x snares."
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.02",
+    "price": "$ 2.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.02"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.03",
+    "price": "$ 3.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.03"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.04",
+    "price": "$ 4.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.04"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.05",
+    "price": "$ 5.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.05"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.06",
+    "price": "$ 6.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.06"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.07",
+    "price": "$ 7.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.07"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.08",
+    "price": "$ 8.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.08"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.09",
+    "price": "$ 9.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.09"
+    ]
+  },
+  {
+    "image": "/content/images/shop-mock-item.png",
+    "name": "Anomalie Sounds Vol.10",
+    "price": "$ 10.00",
+    "link": "https://www.taobao.com/",
+    "demo": "/content/audios/cheat.mp3",
+    "descriptions": [
+      "This is Anomalie Sounds Vol.10"
+    ]
+  }
+]

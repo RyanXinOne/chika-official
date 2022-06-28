@@ -25,6 +25,7 @@
 
 <script>
 import SectionItem from './SectionItem.vue';
+const axios = require('axios').default;
 
 export default {
   name: 'SectionShop',
@@ -33,32 +34,7 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.01', price: '$ 1.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: [
-            'Volume 1 focuses on OB-Xd, a great VST synth that emulates the legendary Oberheim OB-X',
-            '',
-            'You can get it on discoDSP\'s website',
-            '',
-            'The pack contains:',
-            '15 OB-Xd Patches, 15 Loops/Riffs, 15 Midi Files',
-            '',
-            '26 x claps & rimshots',
-            '59 x kicks',
-            '93 x loops',
-            '60 x digital percussion; and',
-            '73 x snares.']
-        },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.02', price: '$ 2.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.02'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.03', price: '$ 3.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.03'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.04', price: '$ 4.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.04'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.05', price: '$ 5.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.05'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.06', price: '$ 6.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.06'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.07', price: '$ 7.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.07'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.08', price: '$ 8.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.08'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.09', price: '$ 9.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.09'] },
-        { image: require('@/assets/images/shop-mock-item.png'), name: 'Anomalie Sounds Vol.10', price: '$ 10.00', link: 'https://www.taobao.com/', demo: require('@/assets/audios/cheat.mp3'), descriptions: ['This is Anomalie Sounds Vol.10'] },
-      ],
+      itemList: [],
       displayNum: 8,
       itemContentOn: false,
       itemData: undefined
@@ -66,11 +42,21 @@ export default {
   },
   computed: {
     loadItems() {
-      return this.items.slice(0, this.displayNum);
+      return this.itemList.slice(0, this.displayNum);
     },
     canLoadMore() {
-      return this.displayNum < this.items.length;
+      return this.displayNum < this.itemList.length;
     }
+  },
+  created() {
+    // fetch albums data
+    axios.get('/content/shopData.json')
+      .then(response => {
+        this.itemList = response.data;
+      })
+      .catch((error) => {
+        console.warn(error.message);
+      });
   },
   methods: {
     displayMore() {

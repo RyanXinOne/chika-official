@@ -1,0 +1,75 @@
+[
+  {
+    "name": "CHIKAKA",
+    "date": "2022-09-06",
+    "image": "/content/images/album-1.jpg",
+    "sources": {},
+    "songs": [
+      {
+        "name": "Let Me Hear",
+        "link": "/content/audios/cheat.mp3"
+      }
+    ],
+    "isNew": true
+  },
+  {
+    "name": "DINNNNN",
+    "date": "2022-09-01",
+    "image": "/content/images/album-2.jpg",
+    "sources": {},
+    "songs": [],
+    "isNew": false
+  },
+  {
+    "name": "S-Ky",
+    "date": "2022-01-01",
+    "image": "/content/images/album-3.jpg",
+    "sources": {},
+    "songs": [],
+    "isNew": false
+  },
+  {
+    "name": "ALBUM CHIKAKA FEAT. SAWANO",
+    "date": "2022-12-22",
+    "image": "/content/images/album-4.jpg",
+    "sources": {
+      "Wangyiyun": "https://music.163.com/",
+      "AppleMusic": "https://www.apple.com/apple-music/"
+    },
+    "songs": [
+      {
+        "name": "Trinity Force",
+        "link": "/content/audios/cheat.mp3"
+      },
+      {
+        "name": "Swampgator",
+        "link": "/content/audios/cheat.mp3"
+      },
+      {
+        "name": "Let Me Hear",
+        "link": "/content/audios/cheat.mp3"
+      },
+      {
+        "name": "Haetae",
+        "link": "/content/audios/cheat.mp3"
+      },
+      {
+        "name": "Falling Down feat. Renko × TRI△NGLE",
+        "link": "/content/audios/cheat.mp3"
+      },
+      {
+        "name": "Count",
+        "link": "/content/audios/cheat.mp3"
+      }
+    ],
+    "isNew": false
+  },
+  {
+    "name": "Gimme",
+    "date": "2022-09-03",
+    "image": "/content/images/album-5.jpg",
+    "sources": {},
+    "songs": [],
+    "isNew": false
+  }
+]

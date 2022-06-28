@@ -23,6 +23,7 @@
 
 <script>
 import SectionAlbum from './SectionAlbum.vue';
+const axios = require('axios').default;
 
 export default {
   name: 'SectionDiscography',
@@ -31,26 +32,7 @@ export default {
   },
   data() {
     return {
-      albumList: [
-        { name: 'CHIKAKA', date: new Date('2022-09-06'), image: require('@/assets/albums/1.jpg'), sources: {}, songs: [{ name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') }], isNew: true },
-        { name: 'DINNNNN', date: new Date('2022-09-01'), image: require('@/assets/albums/2.jpg'), sources: {}, songs: [] },
-        { name: 'S-Ky', date: new Date('2022-01-01'), image: require('@/assets/albums/3.jpg'), sources: {}, songs: [] },
-        {
-          name: 'ALBUM CHIKAKA FEAT. SAWANO',
-          date: new Date('2022-12-22'),
-          image: require('@/assets/albums/4.jpg'),
-          sources: { "Wangyiyun": "https://music.163.com/", "AppleMusic": "https://www.apple.com/apple-music/" },
-          songs: [
-            { name: 'Trinity Force', link: require('@/assets/audios/cheat.mp3') },
-            { name: 'Swampgator', link: require('@/assets/audios/cheat.mp3') },
-            { name: 'Let Me Hear', link: require('@/assets/audios/cheat.mp3') },
-            { name: 'Haetae', link: require('@/assets/audios/cheat.mp3') },
-            { name: 'Falling Down feat. Renko × TRI△NGLE', link: require('@/assets/audios/cheat.mp3') },
-            { name: 'Count', link: require('@/assets/audios/cheat.mp3') },
-          ]
-        },
-        { name: 'Gimme', date: new Date('2022-09-03'), image: require('@/assets/albums/5.jpg'), sources: {}, songs: [] },
-      ],
+      albumList: [],
       scrollSpeed: 1,
       isScrolling: true,
       transX: 0,
@@ -66,7 +48,7 @@ export default {
     },
     albumGroups() {
       // compute number of album groups required
-      return Math.ceil(this.clientWidth / this.albumGroupWidth) * 2;
+      return this.albumGroupWidth > 0 ? Math.ceil(this.clientWidth / this.albumGroupWidth) * 2 : 0;
     },
     translateX() {
       // compute translateX effect of CSS transform
@@ -86,6 +68,27 @@ export default {
     window.addEventListener('resize', () => {
       this.clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
     });
+
+    // fetch albums data
+    axios.get('/content/albumsData.json', {
+      transformResponse: (data) => {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          return data;
+        }
+        for (const album of data) {
+          album.date = new Date(album.date);
+        }
+        return data;
+      }
+    })
+      .then(response => {
+        this.albumList = response.data;
+      })
+      .catch((error) => {
+        console.warn(error.message);
+      });
   },
   mounted() {
     // start infinite scroll animation
@@ -99,7 +102,7 @@ export default {
         this.transX += 0.06 * this.scrollSpeed * timegap;
         // recover position to repeat
         const regressionWidth = this.albumGroupWidth * (this.albumGroups / 2);
-        this.transX %= regressionWidth;
+        this.transX = this.transX % regressionWidth || 0;
       }
       this.lastTimeStamp = timestamp;
       window.requestAnimationFrame(this.albumsInfiniteScrollAnime);

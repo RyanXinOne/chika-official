@@ -4,6 +4,11 @@ node_modules
 # dist folder
 chika-official/
 
+# scripts
+deploy.sh
+chika-resources/*
+!chika-resources/content/
+
 # local env files
 .env.local
 .env.*.local

@@ -7,7 +7,7 @@ module.exports = defineConfig({
   assetsDir: 'assets',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'content'),
+      directory: path.join(__dirname, 'chika-resources/content'),
       publicPath: '/content',
     },
   },

@@ -5,19 +5,18 @@
     </div>
     <span class="description">Music producer/mixing engineer/composer<br>take your song to the next level.</span>
     <span class="big-logo">FU<span>U</span></span>
-    <div class="social-icons">
-      <img src="@/assets/svgs/instagram.svg" />
-      <img src="@/assets/svgs/twitter.svg" />
-      <img src="@/assets/svgs/youtube.svg" />
-      <img src="@/assets/svgs/wechat.svg" />
-      <img src="@/assets/svgs/bilibili.svg" />
-    </div>
+    <SocialIcons left="182px" bottom="77px" />
   </section>
 </template>
 
 <script>
+import SocialIcons from './widgets/SocialIcons.vue';
+
 export default {
-  name: 'SectionAbout'
+  name: 'SectionAbout',
+  components: {
+    SocialIcons
+  }
 }
 </script>
 
@@ -112,23 +111,6 @@ export default {
     span {
       position: relative;
       left: -69px;
-    }
-  }
-
-  .social-icons {
-    @height: 37.79px;
-
-    position: absolute;
-    left: 182px;
-    bottom: 77px;
-    height: @height;
-    white-space: nowrap;
-
-    img {
-      height: @height;
-      margin-right: 22.67px;
-      user-select: none;
-      cursor: pointer;
     }
   }
 }

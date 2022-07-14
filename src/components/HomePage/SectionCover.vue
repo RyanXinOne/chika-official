@@ -1,6 +1,6 @@
 <template>
-  <section id="about">
-    <div class="mask-cover">
+  <section class="cover">
+    <div class="mask-cover-img">
       <div></div>
     </div>
     <span class="description">Music producer/mixing engineer/composer<br>take your song to the next level.</span>
@@ -13,7 +13,7 @@
 import SocialIcons from './widgets/SocialIcons.vue';
 
 export default {
-  name: 'SectionAbout',
+  name: 'SectionCover',
   components: {
     SocialIcons
   }
@@ -21,13 +21,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#about {
+.cover {
   position: relative;
   height: 1000px;
   background: @theme-color;
   overflow: hidden;
 
-  .mask-cover {
+  .mask-cover-img {
     @width: 1000px;
     @height: 1000px;
 

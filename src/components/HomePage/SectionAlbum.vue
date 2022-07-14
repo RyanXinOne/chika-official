@@ -23,9 +23,11 @@
         </div>
         <span class="player-progress-text">{{ remainingTimeReadable }}</span>
       </div>
-      <div class="player-song" v-for="(song, index) in albumDataEn.songs" :key="index" :class="{ playing: index === playingSongId }" @click="playSongByIndex(index)" :title="song.name">
-        <span>{{ paddingNumber(index + 1, 2) }}</span>
-        <span>{{ song.name }}</span>
+      <div class="song-list">
+        <div class="player-song" v-for="(song, index) in albumDataEn.songs" :key="index" :class="{ playing: index === playingSongId }" @click="playSongByIndex(index)" :title="song.name">
+          <span>{{ paddingNumber(index + 1, 2) }}</span>
+          <span>{{ song.name }}</span>
+        </div>
       </div>
     </div>
   </section>
@@ -310,7 +312,6 @@ export default {
 
       display: inline-block;
       height: @length + @margin * 2;
-      margin-bottom: 13px;
       cursor: pointer;
       user-select: none;
 
@@ -392,33 +393,41 @@ export default {
       }
     }
 
-    .player-song {
-      position: relative;
-      margin-left: 24px;
-      margin-bottom: 16px;
-      cursor: pointer;
+    .song-list {
+      position: absolute;
+      top: 120px;
+      left: 24px;
+      display: flex;
+      width: 512px;
+      flex-direction: column;
+      gap: 16px;
 
-      font-family: @theme-font;
-      font-style: normal;
-      font-weight: 300;
-      font-size: 27px;
-      line-height: 36px;
-      letter-spacing: 2px;
-      color: @white;
+      .player-song {
+        position: relative;
+        cursor: pointer;
 
-      &.playing {
-        color: @theme-color;
-      }
+        font-family: @theme-font;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 27px;
+        line-height: 36px;
+        letter-spacing: 2px;
+        color: @white;
 
-      span:last-child {
-        position: absolute;
-        left: 72px;
-        display: inline-block;
-        width: 440px;
+        &.playing {
+          color: @theme-color;
+        }
 
-        overflow-x: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        span:last-child {
+          position: absolute;
+          left: 72px;
+          display: inline-block;
+          width: 440px;
+
+          overflow-x: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
   }

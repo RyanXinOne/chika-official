@@ -37,6 +37,7 @@ export default {
       isScrolling: true,
       transX: 0,
       clientWidth: document.documentElement.clientWidth || document.body.clientWidth,
+      albumSize: NaN,
       albumContentOn: false,
       albumData: undefined
     }
@@ -44,7 +45,7 @@ export default {
   computed: {
     albumGroupWidth() {
       // compute width of a single album group
-      return this.albumList.length * 216;
+      return this.albumList.length * this.albumSize || 0;
     },
     albumGroups() {
       // compute number of album groups required
@@ -91,6 +92,9 @@ export default {
       });
   },
   mounted() {
+    // initialise album size
+    this.albumSize = document.querySelector('#discography .albums').offsetHeight;
+
     // start infinite scroll animation
     window.requestAnimationFrame(this.albumsInfiniteScrollAnime);
   },

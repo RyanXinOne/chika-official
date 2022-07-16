@@ -172,7 +172,10 @@ export default {
       }
     },
     setProgressByClick(event) {
-      this.audio.currentTime = event.offsetX / event.target.offsetWidth * this.duration;
+      const rect = event.currentTarget.getBoundingClientRect();
+      this.audio.currentTime = (event.clientX - rect.left) / rect.width * this.duration;
+      // elegant implementation but unstable
+      // this.audio.currentTime = event.offsetX / event.target.offsetWidth * this.duration;
     },
     paddingNumber(num, length) {
       return (Array(length).join('0') + num).slice(-length);

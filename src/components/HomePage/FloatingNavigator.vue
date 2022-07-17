@@ -1,6 +1,6 @@
 <template>
   <transition name="floating-nav">
-    <div class="floating-nav" v-show="!isHidden" style="display: none;">
+    <div class="floating-nav" v-show="!isHidden">
       <a class="float-logo" href="#">FU<span>U</span></a>
       <div class="nav-btn">
         <div v-for="i in 3" :key="i"></div>
@@ -26,11 +26,7 @@ export default {
   },
   computed: {
     isHidden() {
-      if (this.activeSection === 'header' || this.activeSection === 'footer') {
-        return true;
-      } else {
-        return false;
-      }
+      return this.activeSection === undefined || this.activeSection === 'header' || this.activeSection === 'footer';
     }
   },
   mounted() {
@@ -75,6 +71,9 @@ export default {
 .floating-nav {
   position: absolute;
 
+  mix-blend-mode: difference;
+  @mix-base-color: #A3FCFF;
+
   .float-logo {
     position: fixed;
     left: 51px;
@@ -91,7 +90,7 @@ export default {
     line-height: 35px;
     letter-spacing: 4.90909px;
     text-transform: uppercase;
-    color: @black;
+    color: @mix-base-color;
     user-select: none;
     text-decoration: none;
 
@@ -115,7 +114,7 @@ export default {
     div {
       width: 50px;
       height: 5px;
-      background: @black-2;
+      background: @mix-base-color;
     }
   }
 
@@ -136,11 +135,11 @@ export default {
       line-height: 14px;
       letter-spacing: 1.15px;
       text-decoration: none;
-      color: fade(@black, 35%);
+      color: fade(@mix-base-color, 35%);
       transition: color 0.25s ease;
 
       &.active {
-        color: @black;
+        color: @mix-base-color;
       }
     }
   }
